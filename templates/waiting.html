@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processing Payment...</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0a0f1e;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #111827;
+            padding: 40px;
+            border-radius: 18px;
+            text-align: center;
+            width: 380px;
+            box-shadow: 0 0 20px #00ff99;
+        }
+
+        .loader {
+            border: 6px solid #333;
+            border-top: 6px solid #00ff99;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        h2 { margin-bottom: 10px; }
+        p { color: #aaa; font-size: 14px; line-height: 1.6; }
+        .error { color: #ff9d9d; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="loader" id="loader"></div>
+        <h2 id="title">Processing Payment...</h2>
+        <p id="message">
+            Kindly complete the payment on your phone.<br>
+            Waiting for M-Pesa confirmation...
+        </p>
+    </div>
+
+    <script>
+        const checkoutId = "{{ checkout_request_id }}";
+
+        async function checkStatus() {
+            try {
+                const res = await fetch(`/payment-status/${checkoutId}`);
+                const data = await res.json();
+
+                if (data.status === "paid") {
+                    window.location.href = `/success/${checkoutId}`;
+                    return;
+                }
+
+                if (data.status === "failed") {
+                    document.getElementById("loader").style.display = "none";
+                    document.getElementById("title").innerText = "Payment Failed";
+                    document.getElementById("message").innerHTML =
+                        "The payment was cancelled or failed.<br>Please go back and try again.";
+                    document.getElementById("message").classList.add("error");
+                    return;
+                }
+            } catch (err) {
+                console.log("Status check error:", err);
+            }
+
+            setTimeout(checkStatus, 3000);
+        }
+
+        checkStatus();
+    </script>
+</body>
+</html>

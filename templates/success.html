@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success</title>
+    <style>
+        body {
+            background: #0a0f1e;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        .box {
+            background: #111827;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 0 20px #00ff99;
+            width: 380px;
+        }
+
+        p {
+            color: #d9d9d9;
+            line-height: 1.7;
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>✅ Payment Successful</h2>
+        <p>You are now connected to internet.</p>
+        <p><strong>Package:</strong> {{ payment.package.name if payment and payment.package else '' }}</p>
+        <p><strong>Phone:</strong> {{ payment.phone if payment else '' }}</p>
+        <p><strong>Receipt:</strong> {{ payment.receipt_number if payment and payment.receipt_number else 'Pending receipt' }}</p>
+        <p><strong>Status:</strong> {{ payment.status if payment else '' }}</p>
+    </div>
+</body>
+</html>
