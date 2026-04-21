@@ -52,9 +52,6 @@ def get_mikrotik_connection():
 
 
 def allow_customer_on_mikrotik(customer):
-    """
-    Allow paid hotspot user by MAC address using ip-binding.
-    """
     if not customer or not customer.mac_address:
         print("MIKROTIK SKIPPED: customer or MAC missing")
         return False
@@ -90,9 +87,6 @@ def allow_customer_on_mikrotik(customer):
 
 
 def remove_customer_from_mikrotik(customer):
-    """
-    Remove hotspot bypass for expired user by MAC address.
-    """
     if not customer or not customer.mac_address:
         print("MIKROTIK REMOVE SKIPPED: customer or MAC missing")
         return False
@@ -121,10 +115,6 @@ def remove_customer_from_mikrotik(customer):
 
 
 def expire_finished_sessions():
-    """
-    Find expired active sessions, remove access from MikroTik,
-    and mark them as expired.
-    """
     db = SessionLocal()
     try:
         now = datetime.utcnow()
@@ -162,7 +152,6 @@ def get_mpesa_access_token():
         timeout=30
     )
     print("TOKEN STATUS:", response.status_code)
-    print("TOKEN RESPONSE:", response.text)
     response.raise_for_status()
     return response.json()["access_token"]
 
@@ -226,10 +215,10 @@ def stk_push(phone, amount, account_reference, transaction_desc):
     return response.json()
 
 
-def query_payment_status(checkout_request_id):
+def query_mpesa_status(checkout_request_id):
     """
-    Query M-Pesa for payment status
-    Returns: 'paid', 'pending', 'failed', or None if error
+    Query M-Pesa API directly for payment status
+    Returns: 'paid', 'pending', 'failed'
     """
     try:
         token = get_mpesa_access_token()
@@ -248,46 +237,57 @@ def query_payment_status(checkout_request_id):
             "CheckoutRequestID": checkout_request_id
         }
         
+        print(f"QUERYING M-PESA for: {checkout_request_id}")
         response = requests.post(QUERY_URL, json=payload, headers=headers, timeout=30)
         result = response.json()
         
-        print(f"QUERY RESULT for {checkout_request_id}:", result)
+        print(f"M-PESA QUERY RESPONSE: {result}")
         
         result_code = result.get("ResultCode")
         
         if result_code == "0":
+            # Payment successful
             return "paid", result
         elif result_code == "1037":
+            # Still processing / timeout
             return "pending", None
         elif result_code == "1032":
+            # User cancelled
             return "failed", None
         else:
+            # Other error
+            print(f"Unknown result code: {result_code} - {result.get('ResultDesc')}")
             return "pending", None
             
     except Exception as e:
         print(f"Error querying M-Pesa: {str(e)}")
-        return None, None
+        return "pending", None
 
 
-def activate_payment(payment, query_result=None):
+def activate_payment_and_session(payment, query_result=None):
     """
-    Activate a payment - create customer session and enable MikroTik
+    Activate payment, create session, and enable MikroTik
     """
     db = SessionLocal()
     try:
         if payment.status == "paid":
             return True
             
-        # Extract receipt number from query result if available
+        # Extract receipt number from query result
+        receipt_number = None
         if query_result and query_result.get("CallbackMetadata"):
             callback_metadata = query_result.get("CallbackMetadata", {})
             if callback_metadata.get("Item"):
                 for item in callback_metadata["Item"]:
                     if item.get("Name") == "MpesaReceiptNumber":
-                        payment.receipt_number = item.get("Value")
+                        receipt_number = item.get("Value")
                         break
         
+        # Update payment
         payment.status = "paid"
+        if receipt_number:
+            payment.receipt_number = receipt_number
+        db.commit()
         
         # Get or create customer
         customer = db.query(Customer).filter_by(phone=payment.phone).first()
@@ -296,35 +296,38 @@ def activate_payment(payment, query_result=None):
             db.add(customer)
             db.flush()
         
-        # Create session
+        # Get package
         package = db.query(Package).filter_by(id=payment.package_id).first()
-        if package:
-            start_time = datetime.utcnow()
-            end_time = start_time + timedelta(hours=package.duration_hours)
-            
-            # Check if active session already exists
-            existing_session = db.query(Session).filter_by(
-                customer_id=customer.id,
-                status="active"
-            ).first()
-            
-            if existing_session:
-                existing_session.status = "expired"
-            
-            new_session = Session(
-                customer_id=customer.id,
-                package_id=package.id,
-                start_time=start_time,
-                end_time=end_time,
-                status="active"
-            )
-            db.add(new_session)
-            db.commit()
-            
-            # Activate on MikroTik
-            allow_customer_on_mikrotik(customer)
+        if not package:
+            print(f"Package not found for payment {payment.id}")
+            return False
         
+        # Create new session (end any existing active session first)
+        existing_active = db.query(Session).filter_by(
+            customer_id=customer.id,
+            status="active"
+        ).first()
+        
+        if existing_active:
+            existing_active.status = "expired"
+        
+        start_time = datetime.utcnow()
+        end_time = start_time + timedelta(hours=package.duration_hours)
+        
+        new_session = Session(
+            customer_id=customer.id,
+            package_id=package.id,
+            start_time=start_time,
+            end_time=end_time,
+            status="active"
+        )
+        db.add(new_session)
         db.commit()
+        
+        # Enable on MikroTik
+        allow_customer_on_mikrotik(customer)
+        
+        print(f"✅ Payment activated: {payment.checkout_request_id}")
         return True
         
     except Exception as e:
@@ -472,8 +475,7 @@ def waiting(checkout_request_id):
 @app.route('/payment-status/<checkout_request_id>')
 def payment_status(checkout_request_id):
     """
-    Check payment status - queries M-Pesa API directly
-    This is the CRITICAL endpoint that makes auto-detection work
+    CRITICAL: This queries M-Pesa API directly to check if user paid
     """
     db = SessionLocal()
     try:
@@ -482,24 +484,28 @@ def payment_status(checkout_request_id):
         ).first()
 
         if not payment:
-            return jsonify({"status": "pending"})
+            return jsonify({"status": "pending", "message": "Payment not found"})
         
-        # If already paid or failed, return immediately
+        # If already paid in database
         if payment.status == "paid":
             return jsonify({"status": "paid"})
         
         if payment.status == "failed":
             return jsonify({"status": "failed"})
         
-        # Query M-Pesa for current status
-        status, query_result = query_payment_status(checkout_request_id)
+        # 🔥 CRITICAL: Query M-Pesa API directly
+        print(f"🔍 Checking payment status with M-Pesa for: {checkout_request_id}")
+        status, query_result = query_mpesa_status(checkout_request_id)
+        
+        print(f"📊 M-Pesa returned status: {status}")
         
         if status == "paid":
-            # Activate the payment
-            if activate_payment(payment, query_result):
+            # Activate the payment and create session
+            success = activate_payment_and_session(payment, query_result)
+            if success:
                 return jsonify({"status": "paid"})
             else:
-                return jsonify({"status": "pending"})
+                return jsonify({"status": "pending", "message": "Activation in progress"})
         elif status == "failed":
             payment.status = "failed"
             db.commit()
@@ -508,8 +514,10 @@ def payment_status(checkout_request_id):
             return jsonify({"status": "pending"})
         
     except Exception as e:
-        print(f"Payment status error: {str(e)}")
-        return jsonify({"status": "pending"})
+        print(f"❌ Payment status error: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({"status": "pending", "error": str(e)})
     finally:
         db.close()
 
@@ -522,11 +530,11 @@ def success(checkout_request_id):
             checkout_request_id=checkout_request_id
         ).first()
         
-        # If payment is still pending, try to verify one more time
+        # Final verification if still pending
         if payment and payment.status == "pending":
-            status, query_result = query_payment_status(checkout_request_id)
+            status, query_result = query_mpesa_status(checkout_request_id)
             if status == "paid":
-                activate_payment(payment, query_result)
+                activate_payment_and_session(payment, query_result)
                 db.refresh(payment)
 
         return render_template("success.html", payment=payment)
@@ -543,29 +551,23 @@ def expire_sessions():
 @app.route('/mpesa/callback', methods=['POST'])
 def mpesa_callback():
     callback_data = request.get_json(force=True)
-    print("CALLBACK RECEIVED:", callback_data)
+    print("📞 CALLBACK RECEIVED:", callback_data)
 
     db = SessionLocal()
     try:
         stk_callback = callback_data["Body"]["stkCallback"]
         checkout_request_id = stk_callback.get("CheckoutRequestID")
         result_code = stk_callback.get("ResultCode")
-        result_desc = stk_callback.get("ResultDesc")
 
         payment = db.query(Payment).filter_by(
             checkout_request_id=checkout_request_id
         ).first()
 
         if not payment:
-            return jsonify({
-                "ResultCode": 0,
-                "ResultDesc": "Accepted"
-            })
-
-        print("CALLBACK RESULT CODE:", result_code)
-        print("CALLBACK RESULT DESC:", result_desc)
+            return jsonify({"ResultCode": 0, "ResultDesc": "Accepted"})
 
         if result_code == 0:
+            # Payment successful via callback
             callback_items = stk_callback.get("CallbackMetadata", {}).get("Item", [])
             parsed_items = {}
 
@@ -576,7 +578,9 @@ def mpesa_callback():
 
             payment.status = "paid"
             payment.receipt_number = parsed_items.get("MpesaReceiptNumber")
-
+            db.commit()
+            
+            # Activate session
             customer = db.query(Customer).filter_by(phone=payment.phone).first()
             if not customer:
                 customer = Customer(phone=payment.phone)
@@ -587,43 +591,31 @@ def mpesa_callback():
             if package:
                 start_time = datetime.utcnow()
                 end_time = start_time + timedelta(hours=package.duration_hours)
-
-                existing_active_session = db.query(Session).filter_by(
+                
+                new_session = Session(
                     customer_id=customer.id,
                     package_id=package.id,
+                    start_time=start_time,
+                    end_time=end_time,
                     status="active"
-                ).first()
-
-                if not existing_active_session:
-                    new_session = Session(
-                        customer_id=customer.id,
-                        package_id=package.id,
-                        start_time=start_time,
-                        end_time=end_time,
-                        status="active"
-                    )
-                    db.add(new_session)
-
-            db.commit()
-
-            allow_customer_on_mikrotik(customer)
+                )
+                db.add(new_session)
+                db.commit()
+                
+                allow_customer_on_mikrotik(customer)
+            
+            print(f"✅ Callback activated: {checkout_request_id}")
 
         else:
             payment.status = "failed"
             db.commit()
 
-        return jsonify({
-            "ResultCode": 0,
-            "ResultDesc": "Accepted"
-        })
+        return jsonify({"ResultCode": 0, "ResultDesc": "Accepted"})
 
     except Exception as e:
         db.rollback()
-        print("CALLBACK PARSING ERROR:", str(e))
-        return jsonify({
-            "ResultCode": 0,
-            "ResultDesc": "Accepted with parsing note"
-        })
+        print("CALLBACK ERROR:", str(e))
+        return jsonify({"ResultCode": 0, "ResultDesc": "Accepted"})
     finally:
         db.close()
 
@@ -638,7 +630,6 @@ def admin_dashboard():
 
         active_sessions = [s for s in sessions if s.status == "active"]
         expired_sessions = [s for s in sessions if s.status == "expired"]
-
         total_amount = sum([p.amount for p in payments if p.status == "paid"])
 
         return render_template(
