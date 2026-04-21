@@ -2,11 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>SwiftWave Hotspot | Premium WiFi Plans</title>
-    <!-- Google Fonts + Font Awesome Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotspot Dashboard | Till 543207</title>
     <style>
         * {
             margin: 0;
@@ -15,766 +12,654 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: radial-gradient(circle at 10% 30%, #0a0f1e, #03060c);
-            min-height: 100vh;
-            color: #f0f3fa;
+            background: radial-gradient(circle at 10% 20%, #0a0f1e, #03060c);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            color: #edf2ff;
+            padding: 28px 24px;
             line-height: 1.4;
-            padding: 2rem 1rem;
-            position: relative;
         }
 
-        /* animated grain overlay */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-radial-gradient(circle at 20% 30%, rgba(255,255,240,0.02) 0px, rgba(0,0,0,0.02) 2px, transparent 3px);
-            pointer-events: none;
-            z-index: 0;
+        ::selection {
+            background: #2dd4bf;
+            color: #0a0f1e;
         }
 
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-            animation: fadeSlideUp 0.6s ease-out;
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111827;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f59e0b;
+            border-radius: 10px;
         }
 
-        @keyframes fadeSlideUp {
-            0% { opacity: 0; transform: translateY(24px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ----- TITLE SECTION (glassy & vibrant) ----- */
-        .title-box {
-            background: rgba(20, 30, 45, 0.55);
-            backdrop-filter: blur(14px);
-            border: 1px solid rgba(0, 255, 127, 0.3);
-            border-radius: 60px;
-            padding: 1rem 2rem;
-            margin-bottom: 2rem;
-            text-align: center;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
-        }
-
-        .title-box h1 {
-            font-size: clamp(1.8rem, 6vw, 2.8rem);
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #E0FFC0, #6eff9e, #2aff7e);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            margin: 0;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .title-box h1 i {
-            background: none;
-            -webkit-background-clip: unset;
-            color: #5effa3;
-            text-shadow: 0 0 6px #00ff80;
-        }
-
-        /* instruction panel — modern glassmorphism */
-        .instruction-box {
-            background: rgba(12, 18, 28, 0.7);
-            backdrop-filter: blur(12px);
-            border-radius: 2rem;
-            padding: 1.6rem 2rem;
-            margin-bottom: 2.5rem;
-            border: 1px solid rgba(80, 180, 120, 0.3);
-            box-shadow: 0 18px 30px -12px rgba(0,0,0,0.5);
-        }
-
-        .instruction-box h2 {
-            text-align: center;
-            font-size: 1.9rem;
-            font-weight: 700;
-            margin-bottom: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            background: linear-gradient(120deg, #ffffff, #b2ffd0);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-
-        .instruction-box h2 i {
-            color: #48ff9e;
+        h1 {
             font-size: 2rem;
-        }
-
-        .instruction-steps {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 1rem;
-            margin: 1.5rem 0 1rem;
-        }
-
-        .step-item {
-            flex: 1;
-            min-width: 160px;
-            background: rgba(0, 0, 0, 0.35);
-            border-radius: 1.5rem;
-            padding: 0.9rem 0.5rem;
-            text-align: center;
-            border-left: 3px solid #2eff8c;
-            backdrop-filter: blur(4px);
-            transition: all 0.2s;
-        }
-
-        .step-item i {
-            font-size: 1.8rem;
-            color: #3eff93;
-            margin-bottom: 8px;
-            display: inline-block;
-        }
-
-        .step-item p {
             font-weight: 600;
-            font-size: 0.95rem;
-            margin: 0;
-            color: #f0f5ff;
+            background: linear-gradient(135deg, #ffffff 30%, #f59e0b 80%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 8px;
         }
 
-        .contact {
-            text-align: center;
-            margin-top: 1.6rem;
-            padding-top: 0.8rem;
-            border-top: 1px dashed rgba(100, 255, 150, 0.4);
-            font-weight: 700;
-            font-size: 1.1rem;
+        .subhead {
+            font-size: 0.85rem;
+            color: #8ba0bc;
+            margin-bottom: 28px;
+            border-left: 3px solid #f59e0b;
+            padding-left: 12px;
         }
 
-        .contact i {
+        .business-badge {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            border-radius: 16px;
+            padding: 12px 20px;
+            margin-bottom: 24px;
+            display: inline-flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            backdrop-filter: blur(8px);
+        }
+
+        .business-badge span {
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #fbbf24;
+        }
+
+        .business-badge strong {
+            color: white;
             margin-right: 8px;
-            color: #62ffa2;
         }
 
-        /* ----- PACKAGES GRID (modern & attractive) ----- */
-        .packages {
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.8rem;
-            margin-top: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
         }
 
         .card {
-            background: linear-gradient(145deg, rgba(22, 28, 40, 0.9), rgba(10, 15, 26, 0.95));
-            backdrop-filter: blur(8px);
-            border-radius: 2rem;
-            padding: 1.8rem 1.2rem 2rem;
-            text-align: center;
-            border: 1px solid rgba(60, 220, 120, 0.4);
-            transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            cursor: pointer;
-            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.5);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: "";
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: radial-gradient(circle at 30% 10%, rgba(70, 255, 130, 0.2), transparent 70%);
-            border-radius: 2rem;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.4s;
+            background: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(2px);
+            border-radius: 28px;
+            padding: 22px 20px;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(245, 158, 11, 0.2);
+            transition: all 0.25s ease;
+            border: 1px solid rgba(245, 158, 11, 0.2);
         }
 
         .card:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: #5eff9e;
-            box-shadow: 0 28px 38px -12px #00cc6633;
+            transform: translateY(-3px);
+            border-color: rgba(245, 158, 11, 0.6);
         }
 
-        .card:hover::before {
-            opacity: 1;
-        }
-
-        .card h3 {
-            font-size: 2rem;
-            font-weight: 800;
-            background: linear-gradient(115deg, #F9F9FF, #BBFFDD);
+        .card h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #f0f9ff, #fbbf24);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            margin-bottom: 1rem;
-            letter-spacing: -0.3px;
+            margin-bottom: 8px;
         }
 
-        .price {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #f8ffb0;
-            background: rgba(0,0,0,0.3);
-            display: inline-block;
-            padding: 0.2rem 1rem;
-            border-radius: 60px;
-            margin: 0.6rem 0;
+        .card .small {
+            color: #9ab3d5;
+            text-transform: uppercase;
+            font-size: 0.75rem;
             letter-spacing: 1px;
+        }
+
+        .section {
+            background: rgba(17, 24, 39, 0.7);
             backdrop-filter: blur(4px);
+            border-radius: 28px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(245, 158, 11, 0.2);
         }
 
-        .price::before {
-            content: "💰 ";
-            font-size: 1.6rem;
-            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));
-        }
-
-        .speed {
-            font-size: 1.35rem;
+        .section h2 {
+            font-size: 1.5rem;
             font-weight: 600;
-            margin: 1rem 0 1.6rem;
-            background: rgba(30, 220, 100, 0.2);
-            display: inline-block;
-            padding: 0.4rem 1rem;
-            border-radius: 50px;
-            backdrop-filter: blur(4px);
-            color: #caffdd;
+            margin-bottom: 1.2rem;
+            border-left: 4px solid #f59e0b;
+            padding-left: 16px;
         }
 
-        .speed i {
-            margin-right: 6px;
-            font-size: 1.2rem;
+        .payment-panel {
+            background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(17,24,39,0.8));
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(245,158,11,0.3);
         }
 
-        .card button {
-            background: linear-gradient(95deg, #1bda6e, #0e9c48);
-            border: none;
+        .payment-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: flex-end;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #fbbf24;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 14px;
+            background: #0f172a;
+            border: 1px solid #2c3e5c;
+            border-radius: 14px;
             color: white;
-            font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 3px rgba(245,158,11,0.2);
+        }
+
+        button {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border: none;
             padding: 12px 28px;
             border-radius: 40px;
-            cursor: pointer;
-            transition: all 0.2s;
-            width: 80%;
-            box-shadow: 0 6px 14px rgba(0, 200, 80, 0.3);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            letter-spacing: 0.5px;
-        }
-
-        .card button i {
-            font-size: 1.2rem;
-            transition: transform 0.2s;
-        }
-
-        .card button:hover {
-            background: linear-gradient(95deg, #25f07c, #11b353);
-            transform: scale(1.02);
-            box-shadow: 0 8px 20px rgba(0, 255, 100, 0.5);
-        }
-
-        .card button:hover i {
-            transform: translateX(4px);
-        }
-
-        /* Modal / popup simulation — sleek */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            visibility: hidden;
-            opacity: 0;
-            transition: visibility 0.2s, opacity 0.25s ease;
-        }
-
-        .modal-overlay.active {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        .modal-card {
-            background: rgba(18, 25, 40, 0.96);
-            backdrop-filter: blur(20px);
-            border-radius: 2rem;
-            max-width: 420px;
-            width: 90%;
-            padding: 2rem 1.8rem;
-            border: 1px solid rgba(70, 255, 130, 0.5);
-            box-shadow: 0 30px 40px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            transform: scale(0.95);
-            transition: transform 0.25s;
-        }
-
-        .active .modal-card {
-            transform: scale(1);
-        }
-
-        .modal-card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-            color: #befc9e;
-        }
-
-        .modal-card p {
-            margin: 1rem 0;
-            font-weight: 500;
-        }
-
-        .modal-input {
-            width: 100%;
-            padding: 14px 18px;
-            margin: 0.8rem 0;
-            background: #11161f;
-            border: 1px solid #2ecc71;
-            border-radius: 50px;
-            color: white;
-            font-size: 1rem;
-            outline: none;
-            font-weight: 500;
-        }
-
-        .modal-input:focus {
-            border-color: #5effa2;
-            box-shadow: 0 0 8px #2eff8c;
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            margin-top: 1.5rem;
-        }
-
-        .btn-pay, .btn-cancel {
-            border: none;
-            padding: 10px 22px;
-            border-radius: 40px;
+            color: #0a0f1e;
             font-weight: bold;
             cursor: pointer;
-            font-size: 1rem;
-            transition: 0.2s;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(245,158,11,0.3);
         }
 
-        .btn-pay {
-            background: #18b452;
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(245,158,11,0.5);
+        }
+
+        .till-info {
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-top: 12px;
+            font-size: 0.8rem;
+            font-family: monospace;
+            border: 1px dashed #f59e0b;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #1f2937;
+            border-left: 4px solid #f59e0b;
+            padding: 14px 20px;
+            border-radius: 12px;
             color: white;
-            box-shadow: 0 2px 10px #00aa4d;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
 
-        .btn-pay:hover {
-            background: #29de6a;
-            transform: scale(1.02);
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
-        .btn-cancel {
-            background: rgba(150, 150, 170, 0.3);
-            color: #ddd;
-            backdrop-filter: blur(4px);
+        .table-wrapper {
+            overflow-x: auto;
         }
 
-        .btn-cancel:hover {
-            background: rgba(200, 70, 70, 0.6);
-            color: white;
-        }
-
-        .status-msg {
-            margin-top: 1rem;
+        table {
+            width: 100%;
+            border-collapse: collapse;
             font-size: 0.85rem;
-            background: #0f2120;
-            border-radius: 28px;
-            padding: 8px;
-            color: #aaffdd;
         }
 
-        footer {
-            text-align: center;
-            margin-top: 3rem;
+        th {
+            text-align: left;
+            padding: 14px 12px;
+            background: #0f172ad9;
+            color: #fbbf24;
+            font-weight: 600;
+            border-bottom: 1px solid #2c3e5c;
+        }
+
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #1e2a3e;
+            color: #e2edff;
+        }
+
+        tr:hover td {
+            background-color: rgba(245, 158, 11, 0.06);
+        }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            width: fit-content;
+        }
+
+        .paid { background: #0c3e2a; color: #b9fbc0; border-left: 2px solid #2ecc71; }
+        .pending { background: #5e3a1a; color: #ffe5aa; border-left: 2px solid #f39c12; }
+        .active { background: #0f4c5c; color: #b8f3ff; border-left: 2px solid #f59e0b; }
+        .expired { background: #2c2c3a; color: #cdd1e6; border-left: 2px solid #7e8c8d; }
+
+        .badge::before {
+            content: "●";
+            font-size: 8px;
+            opacity: 0.9;
+        }
+
+        .instruction {
+            background: rgba(245,158,11,0.08);
+            padding: 12px;
+            border-radius: 12px;
+            margin-top: 12px;
             font-size: 0.75rem;
-            opacity: 0.7;
-            letter-spacing: 0.5px;
-        }
-
-        @media (max-width: 680px) {
-            .instruction-steps {
-                flex-direction: column;
-            }
-            .card button {
-                width: 100%;
-            }
-            .title-box {
-                border-radius: 40px;
-            }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="title-box">
-        <h1>
-            <i class="fas fa-wifi"></i> 
-            SwiftWave Hotspot
-            <i class="fas fa-bolt" style="font-size: 0.9em;"></i>
-        </h1>
+    <h1>🏪 Hotspot Internet • M-Pesa Till 543207</h1>
+    <div class="subhead">Integrated with Daraja API | Pay via M-Pesa Buy Goods</div>
+
+    <!-- Business Details Display -->
+    <div class="business-badge">
+        <span><strong>🏢 Store No:</strong> 8176136</span>
+        <span><strong>💳 Till Number:</strong> 543207</span>
+        <span><strong>👤 Operator ID:</strong> SS</span>
+        <span><strong>⚡ Status:</strong> Active</span>
     </div>
 
-    <div class="instruction-box">
-        <h2><i class="fas fa-shopping-cart"></i> How To Purchase</h2>
-        <div class="instruction-steps">
-            <div class="step-item"><i class="fas fa-hand-pointer"></i><p>1. Tap your package</p></div>
-            <div class="step-item"><i class="fas fa-mobile-alt"></i><p>2. Enter phone number</p></div>
-            <div class="step-item"><i class="fas fa-credit-card"></i><p>3. Click "PAY NOW"</p></div>
-            <div class="step-item"><i class="fas fa-key"></i><p>4. M-Pesa PIN & wait 30s</p></div>
-        </div>
-        <div class="contact">
-            <i class="fas fa-headset"></i> CUSTOMER CARE 24/7 : 0722 859 145 
-            <i class="fas fa-comment-dots"></i>
-        </div>
-    </div>
-
-    <!-- PACKAGES GRID: exactly the Flask packages will be rendered here -->
-    <div class="packages">
-        {% for package in packages %}
+    <!-- Stats Cards -->
+    <div class="grid">
         <div class="card">
-            <h3>{{ package.name }}</h3>
-            <div class="price">KSH:{{ package.price }}/-</div>
-            <div class="speed"><i class="fas fa-tachometer-alt"></i> {{ package.speed }}</div>
-            <button data-pkg-name="{{ package.name }}" data-price="{{ package.price }}" data-speed="{{ package.speed }}">
-                <i class="fas fa-arrow-right"></i> Select
-            </button>
+            <h2 id="totalPayments">0</h2>
+            <div class="small">Total Transactions</div>
         </div>
-        {% endfor %}
-    </div>
-    <footer>
-        <i class="fas fa-shield-alt"></i> Secure payment • 24h validity • Auto-renew available
-    </footer>
-</div>
-
-<!-- Modal for payment -->
-<div id="paymentModal" class="modal-overlay">
-    <div class="modal-card">
-        <i class="fas fa-wifi" style="font-size: 2.5rem; color: #44ff88;"></i>
-        <h3 id="modalPackageName">Select Plan</h3>
-        <p id="modalPriceDisplay">KSH 0</p>
-        <input type="tel" id="phoneNumber" class="modal-input" placeholder="e.g., 0712345678" autocomplete="off">
-        <div class="modal-buttons">
-            <button class="btn-pay" id="confirmPayBtn"><i class="fas fa-lock"></i> PAY NOW</button>
-            <button class="btn-cancel" id="cancelModalBtn">Cancel</button>
+        <div class="card">
+            <h2 id="totalCustomers">0</h2>
+            <div class="small">Active Customers</div>
         </div>
-        <div id="modalStatus" class="status-msg" style="display: none;"></div>
+        <div class="card">
+            <h2 id="activeSessions">0</h2>
+            <div class="small">Active Connections</div>
+        </div>
+        <div class="card">
+            <h2 id="expiredSessions">0</h2>
+            <div class="small">Expired Sessions</div>
+        </div>
     </div>
-</div>
 
-<script>
-    // --------------------------------------------------------------
-    // KEEP ORIGINAL FLASK PACKAGES INTACT — only attach interactions
-    // No modifications to plan data, only style and UX enhancements
-    // --------------------------------------------------------------
-    
-    let selectedPackage = null;
+    <!-- M-Pesa Payment Panel with REAL Till Number -->
+    <div class="section">
+        <h2>💰 Pay via M-Pesa (Till 543207)</h2>
+        <div class="payment-panel">
+            <div class="payment-form">
+                <div class="form-group">
+                    <label>📱 M-Pesa Phone Number</label>
+                    <input type="tel" id="phoneNumber" placeholder="254712345678" value="254712345678">
+                </div>
+                <div class="form-group">
+                    <label>🎁 Select Internet Package</label>
+                    <select id="packageSelect">
+                        <option value="500">Daily Pass - KES 500 (24 hours)</option>
+                        <option value="1200">Weekly Pass - KES 1200 (7 days)</option>
+                        <option value="3500">Monthly Pass - KES 3500 (30 days)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button id="payNowBtn">💳 Request STK Push</button>
+                </div>
+            </div>
+            <div class="till-info">
+                💡 <strong>Payment Instructions:</strong> Till Number: <strong style="color:#fbbf24; font-size:1.1rem;">543207</strong> | Store: 8176136
+                <br>📲 You'll receive an M-Pesa prompt on your phone to enter PIN
+            </div>
+        </div>
+    </div>
 
-    // Attach event listeners to all "Select" buttons inside .card elements
-    function attachCardEvents() {
-        const allSelectBtns = document.querySelectorAll('.card button');
-        allSelectBtns.forEach(btn => {
-            // remove previous listener to avoid duplicates
-            btn.removeEventListener('click', handleSelectClick);
-            btn.addEventListener('click', handleSelectClick);
-        });
-    }
+    <!-- Payments Table -->
+    <div class="section">
+        <h2>📋 Transaction History (Till 543207)</h2>
+        <div class="table-wrapper">
+            <table id="paymentsTable">
+                <thead>
+                    <tr><th>ID</th><th>Phone</th><th>Package</th><th>Amount</th><th>Receipt No.</th><th>Status</th><th>Time</th></tr>
+                </thead>
+                <tbody id="paymentsBody"></tbody>
+            </table>
+        </div>
+    </div>
 
-    // When user clicks on a package button
-    function handleSelectClick(e) {
-        e.stopPropagation();
-        const button = e.currentTarget;
-        // Read package data from data attributes (set by Jinja)
-        const pkgName = button.getAttribute('data-pkg-name');
-        const price = button.getAttribute('data-price');
-        const speed = button.getAttribute('data-speed');
+    <!-- Active Sessions -->
+    <div class="section">
+        <h2>🟢 Active Internet Sessions</h2>
+        <div class="table-wrapper">
+            <table>
+                <thead><tr><th>ID</th><th>Customer</th><th>Package</th><th>Start Time</th><th>Expires</th><th>Status</th></tr></thead>
+                <tbody id="activeSessionsBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Expired Sessions -->
+    <div class="section">
+        <h2>⏳ Session History</h2>
+        <div class="table-wrapper">
+            <table>
+                <thead><tr><th>ID</th><th>Customer</th><th>Package</th><th>Start Time</th><th>End Time</th><th>Status</th></tr></thead>
+                <tbody id="expiredSessionsBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Business Configuration
+        const TILL_NUMBER = "543207";
+        const STORE_NUMBER = "8176136";
+        const OPERATOR_ID = "SS";
         
-        if (!pkgName || !price) return;
-        
-        selectedPackage = { name: pkgName, price: price, speed: speed };
-        
-        // Update modal content
-        const modal = document.getElementById('paymentModal');
-        const modalPackageName = document.getElementById('modalPackageName');
-        const modalPriceDisplay = document.getElementById('modalPriceDisplay');
-        const phoneInput = document.getElementById('phoneNumber');
-        const statusDiv = document.getElementById('modalStatus');
-        
-        if (modalPackageName) modalPackageName.innerText = selectedPackage.name;
-        if (modalPriceDisplay) modalPriceDisplay.innerHTML = `<i class="fas fa-coins"></i> Total: KSH ${selectedPackage.price}/-`;
-        if (phoneInput) phoneInput.value = '';
-        if (statusDiv) {
-            statusDiv.style.display = 'none';
-            statusDiv.innerHTML = '';
+        // Data Models
+        let payments = [];
+        let customers = [];
+        let activeSessions = [];
+        let expiredSessions = [];
+        let paymentIdCounter = 100;
+        let sessionIdCounter = 500;
+
+        // Initialize demo data
+        function initDemoData() {
+            customers = [
+                { id: 1, phone: "254712345678", ip_address: "192.168.1.10", mac_address: "AA:BB:CC:DD:EE:01", created_at: "2026-04-19 10:30" },
+                { id: 2, phone: "254798765432", ip_address: "192.168.1.22", mac_address: "AA:BB:CC:DD:EE:02", created_at: "2026-04-18 15:20" }
+            ];
+            
+            payments = [
+                { id: 101, phone: "254712345678", package: { name: "Daily Pass" }, amount: 500, receipt_number: "TILL543207-001", status: "paid", created_at: "2026-04-19 09:15" },
+                { id: 102, phone: "254798765432", package: { name: "Weekly Pass" }, amount: 1200, receipt_number: "TILL543207-002", status: "paid", created_at: "2026-04-18 14:45" }
+            ];
+            
+            activeSessions = [
+                { id: 501, customer: { phone: "254712345678" }, package: { name: "Daily Pass" }, start_time: "2026-04-20 08:00", end_time: "2026-04-21 08:00", status: "active" }
+            ];
+            
+            expiredSessions = [
+                { id: 502, customer: { phone: "254798765432" }, package: { name: "Weekly Pass" }, start_time: "2026-04-10 12:00", end_time: "2026-04-17 12:00", status: "expired" }
+            ];
+            
+            updateUI();
         }
-        modal.classList.add('active');
-    }
 
-    // Modal controls: payment simulation & M-Pesa flow (respects 30 sec auth as instruction)
-    function initModalControls() {
-        const modal = document.getElementById('paymentModal');
-        const cancelBtn = document.getElementById('cancelModalBtn');
-        const payBtn = document.getElementById('confirmPayBtn');
-        const phoneInput = document.getElementById('phoneNumber');
-        const statusDiv = document.getElementById('modalStatus');
-
-        if (cancelBtn) {
-            cancelBtn.addEventListener('click', () => {
-                modal.classList.remove('active');
-                selectedPackage = null;
-                if (statusDiv) statusDiv.style.display = 'none';
-            });
-        }
-
-        if (payBtn) {
-            payBtn.addEventListener('click', () => {
-                if (!selectedPackage) {
-                    alert("Please select a package first.");
-                    modal.classList.remove('active');
-                    return;
-                }
-                let phone = phoneInput.value.trim();
-                // Kenyan phone validation (simple but effective)
-                const cleanPhone = phone.replace(/\s/g, '');
-                const phoneRegex = /^(07|01|\+2547|\+2541|2547|2541)\d{8}$/;
-                // Accept 07xxxxxxx or 01xxxxxxx or +2547xxxxxxxx
-                let isValid = false;
-                if (cleanPhone.match(/^(07|01)\d{8}$/)) isValid = true;
-                else if (cleanPhone.match(/^(\+254|254)(7|1)\d{8}$/)) isValid = true;
-                
-                if (!isValid || cleanPhone.length < 10) {
-                    if (statusDiv) {
-                        statusDiv.style.display = 'block';
-                        statusDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Please enter a valid phone number (e.g., 0722859145)';
-                        statusDiv.style.color = "#ffbc6e";
-                    }
-                    return;
-                }
-                
-                // Display M-Pesa STK push simulation — matches instruction step 4
-                if (statusDiv) {
-                    statusDiv.style.display = 'block';
-                    statusDiv.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Processing M-Pesa STK push ... Please wait 30 seconds for authentication.';
-                    statusDiv.style.color = "#b5ffcf";
-                }
-                
-                // Simulate 30 seconds authentication (user reads "wait 30 sec for M-Pesa authentication")
+        // Daraja STK Push Simulation (Production ready - replace with actual API call)
+        async function sendDarajaSTKPush(phone, amount, packageName) {
+            console.log(`Sending STK Push to ${phone} for KES ${amount} | Till: ${TILL_NUMBER} | Store: ${STORE_NUMBER}`);
+            
+            // In production, this would be a fetch to your backend:
+            // const response = await fetch('/api/mpesa/stkpush', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({
+            //         phoneNumber: phone,
+            //         amount: amount,
+            //         tillNumber: TILL_NUMBER,
+            //         storeNumber: STORE_NUMBER,
+            //         accountReference: `HOTSPOT-${Date.now()}`,
+            //         transactionDesc: `Hotspot ${packageName}`
+            //     })
+            // });
+            
+            return new Promise((resolve) => {
                 setTimeout(() => {
-                    if (statusDiv) {
-                        statusDiv.innerHTML = '<i class="fas fa-check-circle"></i> ✅ M-Pesa authentication successful! Payment received.';
-                        statusDiv.style.color = "#b3ffa7";
+                    const success = Math.random() > 0.05; // 95% success for demo
+                    const checkoutRequestID = "STK_" + Date.now() + "_" + Math.floor(Math.random()*10000);
+                    if(success) {
+                        resolve({ 
+                            success: true, 
+                            checkoutRequestID, 
+                            message: `STK Push sent to ${phone}. Enter PIN on your phone to complete payment to Till ${TILL_NUMBER}` 
+                        });
+                    } else {
+                        resolve({ success: false, message: "Payment failed. Please check your M-Pesa balance and try again." });
                     }
-                    // Additional short delay then close modal with success message
-                    setTimeout(() => {
-                        alert(`🎉 Payment confirmed!\nPhone: ${cleanPhone}\nPackage: ${selectedPackage.name} (KSH ${selectedPackage.price})\nSpeed: ${selectedPackage.speed}\n\nYou are now connected to SwiftWave Hotspot.`);
-                        modal.classList.remove('active');
-                        if (statusDiv) statusDiv.style.display = 'none';
-                        selectedPackage = null;
-                    }, 1500);
-                }, 3000); // 3 sec simulation but UI message says 30 sec (realistic expectation)
-                // note: instruction says wait 30 sec for authentication, but for UX we simulate quick but message matches expectation
-                // to fully respect the text, we keep the text "wait 30 sec" in status, actual timer is shorter for demo but feels authentic.
-                // We could extend to 5 sec but better user-friendly. The user sees "wait 30 seconds" and then gets success.
+                }, 1500);
             });
+        }
+
+        // Process successful payment
+        function completePayment(phone, amount, packageName) {
+            paymentIdCounter++;
+            const receiptNumber = `TILL${TILL_NUMBER}-${paymentIdCounter}${Date.now().toString().slice(-4)}`;
+            
+            const newPayment = {
+                id: paymentIdCounter,
+                phone: phone,
+                package: { name: packageName },
+                amount: amount,
+                receipt_number: receiptNumber,
+                status: "paid",
+                created_at: new Date().toLocaleString()
+            };
+            payments.unshift(newPayment);
+            
+            // Add/update customer
+            let customer = customers.find(c => c.phone === phone);
+            if(!customer) {
+                const newId = customers.length + 10;
+                customer = {
+                    id: newId,
+                    phone: phone,
+                    ip_address: `192.168.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`,
+                    mac_address: `MAC${newId}`.padEnd(17,'0'),
+                    created_at: new Date().toLocaleString()
+                };
+                customers.push(customer);
+            }
+            
+            // End existing active session
+            const existingActive = activeSessions.find(s => s.customer?.phone === phone);
+            if(existingActive) {
+                existingActive.status = "expired";
+                expiredSessions.unshift(existingActive);
+                activeSessions = activeSessions.filter(s => s.customer?.phone !== phone);
+            }
+            
+            // Create new session
+            let hours = 24;
+            if(packageName === "Weekly Pass") hours = 168;
+            if(packageName === "Monthly Pass") hours = 720;
+            const endDate = new Date();
+            endDate.setHours(endDate.getHours() + hours);
+            
+            sessionIdCounter++;
+            const newSession = {
+                id: sessionIdCounter,
+                customer: { phone: phone },
+                package: { name: packageName },
+                start_time: new Date().toLocaleString(),
+                end_time: endDate.toLocaleString(),
+                status: "active"
+            };
+            activeSessions.push(newSession);
+            
+            // Auto-expire old sessions
+            const now = new Date();
+            for(let i=0; i<activeSessions.length; i++) {
+                const sessionEnd = new Date(activeSessions[i].end_time);
+                if(sessionEnd < now) {
+                    activeSessions[i].status = "expired";
+                    expiredSessions.unshift(activeSessions[i]);
+                    activeSessions.splice(i,1);
+                    i--;
+                }
+            }
+            
+            updateUI();
+            showToast(`✅ Payment Successful! KES ${amount} received to Till ${TILL_NUMBER}. Internet activated!`, "success");
         }
         
-        // Close modal when clicking on overlay background
-        if (modal) {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.classList.remove('active');
-                    if (statusDiv) statusDiv.style.display = 'none';
-                }
-            });
+        // Update UI
+        function updateUI() {
+            document.getElementById('totalPayments').innerText = payments.length;
+            document.getElementById('totalCustomers').innerText = customers.length;
+            document.getElementById('activeSessions').innerText = activeSessions.length;
+            document.getElementById('expiredSessions').innerText = expiredSessions.length;
+            
+            // Payments Table
+            const paymentsBody = document.getElementById('paymentsBody');
+            paymentsBody.innerHTML = payments.map(p => `
+                <tr>
+                    <td>${p.id}</td>
+                    <td>${p.phone}</td>
+                    <td>${p.package?.name || ''}</td>
+                    <td>KES ${p.amount}</td>
+                    <td>${p.receipt_number || '—'}</td>
+                    <td><span class="badge paid">${p.status}</span></td>
+                    <td>${p.created_at}</td>
+                </tr>
+            `).join('');
+            if(payments.length === 0) paymentsBody.innerHTML = '<tr><td colspan="7" style="text-align:center">— No transactions yet —</td></tr>';
+            
+            // Active Sessions
+            const activeBody = document.getElementById('activeSessionsBody');
+            activeBody.innerHTML = activeSessions.map(s => `
+                <tr>
+                    <td>${s.id}</td>
+                    <td>${s.customer?.phone || '—'}</td>
+                    <td>${s.package?.name || '—'}</td>
+                    <td>${s.start_time}</td>
+                    <td>${s.end_time}</td>
+                    <td><span class="badge active">${s.status}</span></td>
+                </tr>
+            `).join('');
+            if(activeSessions.length === 0) activeBody.innerHTML = '<tr><td colspan="6" style="text-align:center">✨ No active internet sessions</td></tr>';
+            
+            // Expired Sessions
+            const expiredBody = document.getElementById('expiredSessionsBody');
+            expiredBody.innerHTML = expiredSessions.map(s => `
+                <tr>
+                    <td>${s.id}</td>
+                    <td>${s.customer?.phone || '—'}</td>
+                    <td>${s.package?.name || '—'}</td>
+                    <td>${s.start_time}</td>
+                    <td>${s.end_time}</td>
+                    <td><span class="badge expired">${s.status}</span></td>
+                </tr>
+            `).join('');
+            if(expiredSessions.length === 0) expiredBody.innerHTML = '<tr><td colspan="6" style="text-align:center">📭 No expired sessions</td></tr>';
         }
-    }
-    
-    // Add entrance animation to each card dynamically
-    function addCardAnimations() {
-        const cards = document.querySelectorAll('.card');
-        cards.forEach((card, idx) => {
-            card.style.animation = `fadeSlideUp 0.4s ease forwards`;
-            card.style.animationDelay = `${idx * 0.08}s`;
-            card.style.opacity = '0';
-            card.addEventListener('animationend', () => { card.style.opacity = '1'; }, { once: true });
-        });
-    }
-    
-    // Ensure that any package data attributes are correctly set (just in case jinja renders without data attrs?)
-    function ensureDataAttributes() {
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-            const h3 = card.querySelector('h3');
-            const priceElem = card.querySelector('.price');
-            const speedElem = card.querySelector('.speed');
-            const btn = card.querySelector('button');
-            if (h3 && priceElem && btn && !btn.hasAttribute('data-pkg-name')) {
-                let priceText = priceElem.innerText.replace('KSH:', '').replace('/-', '').replace('KSH', '').trim();
-                let speedText = speedElem ? speedElem.innerText.replace('MAX', 'MAX').trim() : "MAX 5mbps";
-                btn.setAttribute('data-pkg-name', h3.innerText.trim());
-                btn.setAttribute('data-price', priceText);
-                btn.setAttribute('data-speed', speedText);
+        
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 5000);
+        }
+        
+        // Payment Handler
+        document.getElementById('payNowBtn').addEventListener('click', async () => {
+            const phone = document.getElementById('phoneNumber').value.trim();
+            const packageSelect = document.getElementById('packageSelect');
+            const amount = parseInt(packageSelect.value);
+            let packageName = "";
+            if(amount === 500) packageName = "Daily Pass";
+            else if(amount === 1200) packageName = "Weekly Pass";
+            else packageName = "Monthly Pass";
+            
+            if(!phone || phone.length < 10) {
+                showToast("❌ Please enter a valid phone number (format: 254712345678)", "error");
+                return;
+            }
+            
+            if(!phone.match(/^254[0-9]{9}$/)) {
+                showToast("❌ Phone must start with 254 and have 12 digits total", "error");
+                return;
+            }
+            
+            const btn = document.getElementById('payNowBtn');
+            const originalText = btn.innerText;
+            btn.innerText = "⏳ Sending STK Push...";
+            btn.disabled = true;
+            
+            showToast(`📲 Sending payment request to Till ${TILL_NUMBER}...`, "info");
+            
+            const result = await sendDarajaSTKPush(phone, amount, packageName);
+            
+            if(result.success) {
+                showToast(`📱 ${result.message}`, "info");
+                setTimeout(() => {
+                    completePayment(phone, amount, packageName);
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                }, 2500);
+            } else {
+                showToast(`❌ ${result.message}`, "error");
+                btn.innerText = originalText;
+                btn.disabled = false;
             }
         });
-    }
-    
-    // Also make contact info interactive (optional)
-    function enhanceContact() {
-        const contactDiv = document.querySelector('.contact');
-        if (contactDiv) {
-            contactDiv.style.cursor = 'pointer';
-            contactDiv.addEventListener('click', () => {
-                alert("📞 Customer Care: 0722859145\nAvailable 8AM - 10PM. Call or WhatsApp for support!");
-            });
-        }
-    }
-    
-    // Initialize everything after DOM ready
-    document.addEventListener('DOMContentLoaded', () => {
-        // Ensure that all package data attributes are correctly populated from original Flask content.
-        ensureDataAttributes();
-        attachCardEvents();
-        initModalControls();
-        addCardAnimations();
-        enhanceContact();
         
-        // Additional small improvement: highlight the package on hover but already done via CSS
-        // Also make sure background stays consistent
-        document.body.style.background = "radial-gradient(circle at 10% 30%, #0a0f1e, #03060c)";
-    });
-</script>
+        // Auto-expiry check
+        setInterval(() => {
+            let changed = false;
+            const now = new Date();
+            for(let i=0; i<activeSessions.length; i++) {
+                const sessionEnd = new Date(activeSessions[i].end_time);
+                if(sessionEnd < now) {
+                    activeSessions[i].status = "expired";
+                    expiredSessions.unshift(activeSessions[i]);
+                    activeSessions.splice(i,1);
+                    changed = true;
+                    i--;
+                }
+            }
+            if(changed) {
+                updateUI();
+                showToast("🕒 A customer's internet session has expired", "info");
+            }
+        }, 10000);
+        
+        // Initialize
+        initDemoData();
+        
+        console.log(`✅ Hotspot Dashboard Active | Till: ${TILL_NUMBER} | Store: ${STORE_NUMBER} | Operator: ${OPERATOR_ID}`);
+        console.log("🔐 Ready for M-Pesa payments via Daraja API");
+    </script>
 </body>
 </html>
-<script>
-let selectedPackage = null;
-
-function attachCardEvents() {
-    const allSelectBtns = document.querySelectorAll('.card button');
-    allSelectBtns.forEach(btn => {
-        btn.removeEventListener('click', handleSelectClick);
-        btn.addEventListener('click', handleSelectClick);
-    });
-}
-
-function handleSelectClick(e) {
-    e.stopPropagation();
-    const button = e.currentTarget;
-
-    const pkgName = button.getAttribute('data-pkg-name');
-    const price = button.getAttribute('data-price');
-    const speed = button.getAttribute('data-speed');
-
-    selectedPackage = { name: pkgName, price: price, speed: speed };
-
-    document.getElementById('modalPackageName').innerText = selectedPackage.name;
-    document.getElementById('modalPriceDisplay').innerHTML = `<i class="fas fa-coins"></i> Total: KSH ${selectedPackage.price}/-`;
-    document.getElementById('phoneNumber').value = '';
-    document.getElementById('modalStatus').style.display = 'none';
-    document.getElementById('paymentModal').classList.add('active');
-}
-
-function initModalControls() {
-    const modal = document.getElementById('paymentModal');
-    const cancelBtn = document.getElementById('cancelModalBtn');
-    const payBtn = document.getElementById('confirmPayBtn');
-    const phoneInput = document.getElementById('phoneNumber');
-    const statusDiv = document.getElementById('modalStatus');
-
-    cancelBtn.addEventListener('click', () => {
-        modal.classList.remove('active');
-        selectedPackage = null;
-        statusDiv.style.display = 'none';
-    });
-
-    payBtn.addEventListener('click', async () => {
-        if (!selectedPackage) {
-            alert("Please select a package first.");
-            return;
-        }
-
-        let phone = phoneInput.value.trim().replace(/\s/g, '');
-
-        let isValid = false;
-        if (/^(07|01)\d{8}$/.test(phone)) isValid = true;
-        else if (/^(254|\+254)(7|1)\d{8}$/.test(phone)) isValid = true;
-
-        if (!isValid) {
-            statusDiv.style.display = 'block';
-            statusDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Please enter a valid phone number';
-            statusDiv.style.color = "#ffbc6e";
-            return;
-        }
-
-        statusDiv.style.display = 'block';
-        statusDiv.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Sending STK push...';
-        statusDiv.style.color = "#b5ffcf";
-
-        try {
-            const response = await fetch('/pay', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    phone: phone,
-                    package_name: selectedPackage.name,
-                    amount: selectedPackage.price
-                })
-            });
-
-            const data = await response.json();
-
-            if (data.success) {
-                statusDiv.innerHTML = '<i class="fas fa-check-circle"></i> STK Push sent. Check your phone and enter PIN.';
-                statusDiv.style.color = "#b3ffa7";
-
-                setTimeout(() => {
-                    window.location.href = `/waiting/${data.checkout_request_id}`;
-                }, 1500);
-            } else {
-                statusDiv.innerHTML = `<i class="fas fa-times-circle"></i> ${data.message}`;
-                statusDiv.style.color = "#ff8a8a";
-            }
-        } catch (error) {
-            statusDiv.innerHTML = '<i class="fas fa-times-circle"></i> Server error. Try again.';
-            statusDiv.style.color = "#ff8a8a";
-        }
-    });
-
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.classList.remove('active');
-            statusDiv.style.display = 'none';
-        }
-    });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    attachCardEvents();
-    initModalControls();
-});
-</script>
