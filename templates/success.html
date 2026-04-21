@@ -160,10 +160,67 @@
             border-radius: 1rem;
             font-size: 0.85rem;
         }
+
+        /* Countdown Timer */
+        .countdown {
+            margin-top: 1rem;
+            padding: 0.5rem;
+            font-size: 0.8rem;
+            color: #7effb0;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 2rem;
+            display: inline-block;
+            width: auto;
+        }
+
+        .countdown i {
+            margin-right: 0.5rem;
+        }
+
+        /* Redirect overlay - hidden by default */
+        .redirect-overlay {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            border-left: 3px solid #2eff8c;
+            animation: slideInRight 0.5s ease-out;
+            z-index: 1000;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+        }
+
+        .fade-out {
+            animation: fadeOut 0.5s ease-out forwards;
+        }
     </style>
 </head>
 <body>
-    <div class="success-container">
+    <div class="success-container" id="successContainer">
         <div class="success-card">
             <div class="check-icon">
                 <i class="fas fa-check-circle"></i>
@@ -204,14 +261,87 @@
             </div>
 
             <div class="btn-group">
-                <a href="/" class="btn btn-primary">
-                    <i class="fas fa-home"></i> Back to Home
+                <a href="/" class="btn btn-primary" id="browseNowBtn">
+                    <i class="fas fa-globe"></i> Browse Now
                 </a>
-                <a href="/admin" class="btn btn-secondary">
-                    <i class="fas fa-chart-line"></i> Dashboard
-                </a>
+            </div>
+
+            <div class="countdown" id="countdown">
+                <i class="fas fa-hourglass-half"></i> Redirecting in <span id="timer">3</span> seconds...
             </div>
         </div>
     </div>
+
+    <!-- Redirect notification overlay -->
+    <div class="redirect-overlay" id="redirectOverlay">
+        <i class="fas fa-external-link-alt"></i> Redirecting you to continue browsing...
+    </div>
+
+    <script>
+        let countdown = 3;
+        const timerElement = document.getElementById('timer');
+        const countdownElement = document.getElementById('countdown');
+        const successContainer = document.getElementById('successContainer');
+        const redirectOverlay = document.getElementById('redirectOverlay');
+        const browseNowBtn = document.getElementById('browseNowBtn');
+
+        // Countdown timer
+        const interval = setInterval(() => {
+            countdown--;
+            if (timerElement) {
+                timerElement.textContent = countdown;
+            }
+            
+            if (countdown <= 0) {
+                clearInterval(interval);
+                // Fade out animation before redirect
+                if (successContainer) {
+                    successContainer.classList.add('fade-out');
+                }
+                if (redirectOverlay) {
+                    redirectOverlay.style.opacity = '0';
+                    redirectOverlay.style.transition = 'opacity 0.3s';
+                }
+                // Redirect to home page after fade
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 500);
+            }
+        }, 1000);
+
+        // Manual redirect with button click
+        if (browseNowBtn) {
+            browseNowBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                clearInterval(interval);
+                // Fade out animation
+                if (successContainer) {
+                    successContainer.classList.add('fade-out');
+                }
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 300);
+            });
+        }
+
+        // Optional: Hide overlay after 2 seconds (it's just a notification)
+        setTimeout(() => {
+            if (redirectOverlay) {
+                redirectOverlay.style.opacity = '0';
+                redirectOverlay.style.transition = 'opacity 0.5s';
+                setTimeout(() => {
+                    if (redirectOverlay) redirectOverlay.remove();
+                }, 500);
+            }
+        }, 2000);
+
+        // Auto-detect if user wants to browse immediately
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                clearInterval(interval);
+                window.location.href = '/';
+            }
+        });
+    </script>
 </body>
 </html>
