@@ -3,87 +3,323 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Processing Payment...</title>
+    <title>Processing Payment - SwiftWave Hotspot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        body {
+        * {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #0a0f1e;
-            color: white;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at 20% 10%, #070b17, #010409);
+            min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
-            height: 100vh;
+            justify-content: center;
+            color: #f0f3fa;
+            padding: 1rem;
         }
 
-        .container {
-            background: #111827;
-            padding: 40px;
-            border-radius: 18px;
+        .payment-container {
+            max-width: 500px;
+            width: 100%;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .payment-card {
+            background: rgba(8, 16, 28, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 2rem;
+            padding: 2.5rem 2rem;
             text-align: center;
-            width: 380px;
-            box-shadow: 0 0 20px #00ff99;
+            border: 1px solid rgba(0, 255, 170, 0.4);
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 255, 170, 0.1);
         }
 
-        .loader {
-            border: 6px solid #333;
-            border-top: 6px solid #00ff99;
+        .icon-wrapper {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, rgba(0, 255, 170, 0.1), rgba(0, 100, 80, 0.2));
             border-radius: 50%;
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(0, 255, 170, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 255, 170, 0.4); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(0, 255, 170, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 255, 170, 0); }
+        }
+
+        .icon-wrapper i {
+            font-size: 3.5rem;
+            color: #2eff8c;
             animation: spin 1s linear infinite;
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
-        h2 { margin-bottom: 10px; }
-        p { color: #aaa; font-size: 14px; line-height: 1.6; }
-        .error { color: #ff9d9d; }
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff, #7effb0);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .instruction {
+            background: rgba(0, 255, 170, 0.08);
+            padding: 1rem;
+            border-radius: 1rem;
+            margin: 1.5rem 0;
+            border-left: 3px solid #2eff8c;
+        }
+
+        .instruction p {
+            margin: 0.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        .status-box {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 1rem;
+            border-radius: 1rem;
+            margin: 1.5rem 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .timer {
+            font-size: 0.85rem;
+            color: #7effb0;
+            margin-top: 1rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.8rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1bda6e, #0e9c48);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 100, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(100, 100, 130, 0.3);
+            color: #ddd;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(200, 70, 70, 0.5);
+        }
+
+        .success-icon {
+            animation: none !important;
+            color: #2eff8c !important;
+        }
+
+        .error-icon {
+            animation: none !important;
+            color: #ff6b6b !important;
+        }
+
+        @keyframes checkmark {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="loader" id="loader"></div>
-        <h2 id="title">Processing Payment...</h2>
-        <p id="message">
-            Kindly complete the payment on your phone.<br>
-            Waiting for M-Pesa confirmation...
-        </p>
+    <div class="payment-container">
+        <div class="payment-card" id="paymentCard">
+            <div class="icon-wrapper" id="iconWrapper">
+                <i class="fas fa-spinner fa-pulse" id="statusIcon"></i>
+            </div>
+            <h2 id="statusTitle">Processing Payment...</h2>
+            <div class="instruction">
+                <p><i class="fas fa-mobile-alt"></i> Check your phone for the M-Pesa STK Push</p>
+                <p><i class="fas fa-key"></i> Enter your M-Pesa PIN to complete payment</p>
+                <p><i class="fas fa-hourglass-half"></i> Do not close this page</p>
+            </div>
+            <div class="status-box" id="statusMessage">
+                <i class="fas fa-clock"></i> Waiting for payment confirmation...
+            </div>
+            <div class="timer" id="timer">
+                Time elapsed: <span id="seconds">0</span> seconds
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-secondary" onclick="checkStatusManually()">
+                    <i class="fas fa-sync-alt"></i> Check Status
+                </button>
+                <a href="/" class="btn btn-secondary">
+                    <i class="fas fa-home"></i> Cancel
+                </a>
+            </div>
+        </div>
     </div>
 
     <script>
-        const checkoutId = "{{ checkout_request_id }}";
+        const checkoutRequestId = "{{ checkout_request_id }}";
+        let pollingInterval = null;
+        let elapsedSeconds = 0;
+        let timerInterval = null;
 
-        async function checkStatus() {
-            try {
-                const res = await fetch(`/payment-status/${checkoutId}`);
-                const data = await res.json();
-
-                if (data.status === "paid") {
-                    window.location.href = `/success/${checkoutId}`;
-                    return;
+        // Update timer
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                elapsedSeconds++;
+                document.getElementById('seconds').innerText = elapsedSeconds;
+                if (elapsedSeconds >= 60) {
+                    document.getElementById('statusMessage').innerHTML = '<i class="fas fa-exclamation-triangle"></i> Taking longer than expected. You can check status manually.';
                 }
-
-                if (data.status === "failed") {
-                    document.getElementById("loader").style.display = "none";
-                    document.getElementById("title").innerText = "Payment Failed";
-                    document.getElementById("message").innerHTML =
-                        "The payment was cancelled or failed.<br>Please go back and try again.";
-                    document.getElementById("message").classList.add("error");
-                    return;
+                if (elapsedSeconds >= 120) {
+                    document.getElementById('statusMessage').innerHTML = '<i class="fas fa-headset"></i> Still waiting? Contact support: 0722 859 145';
                 }
-            } catch (err) {
-                console.log("Status check error:", err);
-            }
-
-            setTimeout(checkStatus, 3000);
+            }, 1000);
         }
 
-        checkStatus();
+        // Poll payment status
+        async function pollPaymentStatus() {
+            try {
+                const response = await fetch(`/payment-status/${checkoutRequestId}`);
+                const data = await response.json();
+                
+                console.log("Payment status:", data.status);
+                
+                if (data.status === "paid") {
+                    clearInterval(pollingInterval);
+                    clearInterval(timerInterval);
+                    showSuccess();
+                } else if (data.status === "failed") {
+                    clearInterval(pollingInterval);
+                    clearInterval(timerInterval);
+                    showError();
+                }
+            } catch (error) {
+                console.error("Polling error:", error);
+            }
+        }
+
+        function showSuccess() {
+            const iconWrapper = document.getElementById('iconWrapper');
+            const statusIcon = document.getElementById('statusIcon');
+            const statusTitle = document.getElementById('statusTitle');
+            const statusMessage = document.getElementById('statusMessage');
+            
+            statusIcon.className = 'fas fa-check-circle success-icon';
+            statusIcon.style.animation = 'checkmark 0.5s ease-out';
+            iconWrapper.style.animation = 'none';
+            statusTitle.innerHTML = '<i class="fas fa-check-circle"></i> Payment Successful!';
+            statusTitle.style.background = 'linear-gradient(135deg, #7effb0, #2eff8c)';
+            statusTitle.style.backgroundClip = 'text';
+            statusTitle.style.webkitBackgroundClip = 'text';
+            statusMessage.innerHTML = '<i class="fas fa-wifi"></i> Your internet has been activated! Redirecting...';
+            
+            // Redirect to success page after 3 seconds
+            setTimeout(() => {
+                window.location.href = `/success/${checkoutRequestId}`;
+            }, 3000);
+        }
+
+        function showError() {
+            const iconWrapper = document.getElementById('iconWrapper');
+            const statusIcon = document.getElementById('statusIcon');
+            const statusTitle = document.getElementById('statusTitle');
+            const statusMessage = document.getElementById('statusMessage');
+            const btnGroup = document.querySelector('.btn-group');
+            
+            statusIcon.className = 'fas fa-times-circle error-icon';
+            statusIcon.style.animation = 'none';
+            iconWrapper.style.animation = 'none';
+            iconWrapper.style.borderColor = '#ff6b6b';
+            statusTitle.innerHTML = '<i class="fas fa-times-circle"></i> Payment Failed';
+            statusTitle.style.background = 'linear-gradient(135deg, #ff9e9e, #ff6b6b)';
+            statusTitle.style.backgroundClip = 'text';
+            statusTitle.style.webkitBackgroundClip = 'text';
+            statusMessage.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Transaction failed. Please try again.';
+            
+            // Change buttons
+            btnGroup.innerHTML = `
+                <button class="btn btn-primary" onclick="window.location.href='/'">
+                    <i class="fas fa-arrow-left"></i> Try Again
+                </button>
+                <button class="btn btn-secondary" onclick="window.location.href='/admin'">
+                    <i class="fas fa-headset"></i> Support
+                </button>
+            `;
+        }
+
+        async function checkStatusManually() {
+            document.getElementById('statusMessage').innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Checking status...';
+            try {
+                const response = await fetch(`/payment-status/${checkoutRequestId}`);
+                const data = await response.json();
+                
+                if (data.status === "paid") {
+                    clearInterval(pollingInterval);
+                    clearInterval(timerInterval);
+                    showSuccess();
+                } else if (data.status === "failed") {
+                    clearInterval(pollingInterval);
+                    clearInterval(timerInterval);
+                    showError();
+                } else {
+                    document.getElementById('statusMessage').innerHTML = '<i class="fas fa-clock"></i> Still pending. Please complete payment on your phone.';
+                }
+            } catch (error) {
+                document.getElementById('statusMessage').innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error checking status. Please try again.';
+            }
+        }
+
+        // Start polling and timer
+        startTimer();
+        pollingInterval = setInterval(pollPaymentStatus, 3000);
+        
+        // Stop polling after 3 minutes
+        setTimeout(() => {
+            if (pollingInterval) {
+                clearInterval(pollingInterval);
+                document.getElementById('statusMessage').innerHTML = '<i class="fas fa-clock"></i> Timeout. Please check manually or contact support.';
+            }
+        }, 180000);
     </script>
 </body>
 </html>

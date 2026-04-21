@@ -3,43 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Success</title>
+    <title>Payment Successful - SwiftWave Hotspot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        body {
-            background: #0a0f1e;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .box {
-            background: #111827;
-            padding: 40px;
-            border-radius: 15px;
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at 20% 10%, #070b17, #010409);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f0f3fa;
+            padding: 1rem;
+        }
+
+        .success-container {
+            max-width: 500px;
+            width: 100%;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-card {
+            background: rgba(8, 16, 28, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 2rem;
+            padding: 2.5rem 2rem;
             text-align: center;
-            box-shadow: 0 0 20px #00ff99;
-            width: 380px;
+            border: 2px solid rgba(0, 255, 170, 0.6);
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 255, 170, 0.2);
         }
 
-        p {
-            color: #d9d9d9;
-            line-height: 1.7;
-            margin: 8px 0;
+        .check-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, rgba(0, 255, 170, 0.2), rgba(0, 100, 80, 0.3));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #2eff8c;
+            animation: checkPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes checkPop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .check-icon i {
+            font-size: 3.5rem;
+            color: #2eff8c;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #7effb0, #2eff8c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .receipt-box {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 1rem;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            text-align: left;
+            border: 1px solid rgba(0, 255, 170, 0.2);
+        }
+
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .receipt-row:last-child {
+            border-bottom: none;
+        }
+
+        .receipt-label {
+            font-weight: 600;
+            color: #7effb0;
+        }
+
+        .receipt-value {
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.8rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1bda6e, #0e9c48);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 100, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(100, 100, 130, 0.3);
+            color: #ddd;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(100, 100, 130, 0.5);
+        }
+
+        .internet-instructions {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(46, 255, 140, 0.1);
+            border-radius: 1rem;
+            font-size: 0.85rem;
         }
     </style>
 </head>
 <body>
-    <div class="box">
-        <h2>✅ Payment Successful</h2>
-        <p>You are now connected to internet.</p>
-        <p><strong>Package:</strong> {{ payment.package.name if payment and payment.package else '' }}</p>
-        <p><strong>Phone:</strong> {{ payment.phone if payment else '' }}</p>
-        <p><strong>Receipt:</strong> {{ payment.receipt_number if payment and payment.receipt_number else 'Pending receipt' }}</p>
-        <p><strong>Status:</strong> {{ payment.status if payment else '' }}</p>
+    <div class="success-container">
+        <div class="success-card">
+            <div class="check-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Payment Successful!</h2>
+            <p>Your internet package has been activated</p>
+
+            <div class="receipt-box">
+                <div class="receipt-row">
+                    <span class="receipt-label">Transaction ID:</span>
+                    <span class="receipt-value">{{ payment.checkout_request_id if payment else 'N/A' }}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Phone Number:</span>
+                    <span class="receipt-value">{{ payment.phone if payment else 'N/A' }}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Package:</span>
+                    <span class="receipt-value">{{ payment.package.name if payment and payment.package else 'N/A' }}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Amount:</span>
+                    <span class="receipt-value">KES {{ payment.amount if payment else '0' }}/-</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Receipt No:</span>
+                    <span class="receipt-value">{{ payment.receipt_number if payment else 'N/A' }}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Time:</span>
+                    <span class="receipt-value">{{ payment.created_at if payment else 'N/A' }}</span>
+                </div>
+            </div>
+
+            <div class="internet-instructions">
+                <i class="fas fa-wifi"></i> <strong>You are now connected!</strong><br>
+                Your internet access has been activated. You can now browse freely.
+            </div>
+
+            <div class="btn-group">
+                <a href="/" class="btn btn-primary">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+                <a href="/admin" class="btn btn-secondary">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a>
+            </div>
+        </div>
     </div>
 </body>
 </html>
