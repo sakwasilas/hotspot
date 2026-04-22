@@ -104,6 +104,7 @@
             margin: 1.5rem 0;
             font-family: monospace;
             font-size: 0.9rem;
+            line-height: 1.5;
         }
 
         .timer {
@@ -165,6 +166,21 @@
             0% { transform: scale(0); }
             100% { transform: scale(1); }
         }
+
+        @media (max-width: 560px) {
+            .payment-card {
+                padding: 2rem 1.2rem;
+                border-radius: 1.5rem;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            h2 {
+                font-size: 1.4rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -173,19 +189,24 @@
             <div class="icon-wrapper" id="iconWrapper">
                 <i class="fas fa-spinner fa-pulse" id="statusIcon"></i>
             </div>
+
             <h2 id="statusTitle">Processing Payment...</h2>
+
             <div class="instruction">
                 <p><i class="fas fa-mobile-alt"></i> Check your phone for the M-Pesa STK Push</p>
                 <p><i class="fas fa-key"></i> Enter your M-Pesa PIN to complete payment</p>
-                <p><i class="fas fa-hourglass-half"></i> Do not close this page</p>
+                <p><i class="fas fa-hourglass-half"></i> Do not close this page yet</p>
             </div>
+
             <div class="status-box" id="statusMessage">
                 <i class="fas fa-clock"></i> Waiting for payment confirmation...
             </div>
+
             <div class="timer" id="timer">
                 Time elapsed: <span id="seconds">0</span> seconds
             </div>
-            <div class="btn-group">
+
+            <div class="btn-group" id="btnGroup">
                 <button class="btn btn-secondary" onclick="checkStatusManually()">
                     <i class="fas fa-sync-alt"></i> Check Status
                 </button>
@@ -198,39 +219,59 @@
 
     <script>
         const checkoutRequestId = "{{ checkout_request_id }}";
+        const urlParams = new URLSearchParams(window.location.search);
+        const linkOrig = urlParams.get("link_orig") || "https://www.google.com";
+
         let pollingInterval = null;
+        let timeoutTimer = null;
         let elapsedSeconds = 0;
         let timerInterval = null;
+        let isCompleted = false;
 
-        // Update timer
         function startTimer() {
             timerInterval = setInterval(() => {
                 elapsedSeconds++;
                 document.getElementById('seconds').innerText = elapsedSeconds;
-                if (elapsedSeconds >= 60) {
-                    document.getElementById('statusMessage').innerHTML = '<i class="fas fa-exclamation-triangle"></i> Taking longer than expected. You can check status manually.';
+
+                if (elapsedSeconds >= 30 && !isCompleted) {
+                    document.getElementById('statusMessage').innerHTML =
+                        '<i class="fas fa-hourglass-half"></i> Still waiting for confirmation. Please complete payment on your phone.';
                 }
-                if (elapsedSeconds >= 120) {
-                    document.getElementById('statusMessage').innerHTML = '<i class="fas fa-headset"></i> Still waiting? Contact support: 0722 859 145';
+
+                if (elapsedSeconds >= 60 && !isCompleted) {
+                    document.getElementById('statusMessage').innerHTML =
+                        '<i class="fas fa-exclamation-triangle"></i> Taking longer than expected. You can tap "Check Status".';
+                }
+
+                if (elapsedSeconds >= 120 && !isCompleted) {
+                    document.getElementById('statusMessage').innerHTML =
+                        '<i class="fas fa-headset"></i> Still waiting? Contact support: 0722 859 145';
                 }
             }, 1000);
         }
 
-        // Poll payment status
+        function stopAllIntervals() {
+            if (pollingInterval) clearInterval(pollingInterval);
+            if (timerInterval) clearInterval(timerInterval);
+            if (timeoutTimer) clearTimeout(timeoutTimer);
+        }
+
         async function pollPaymentStatus() {
+            if (isCompleted) return;
+
             try {
                 const response = await fetch(`/payment-status/${checkoutRequestId}`);
                 const data = await response.json();
-                
+
                 console.log("Payment status:", data.status);
-                
+
                 if (data.status === "paid") {
-                    clearInterval(pollingInterval);
-                    clearInterval(timerInterval);
+                    isCompleted = true;
+                    stopAllIntervals();
                     showSuccess();
                 } else if (data.status === "failed") {
-                    clearInterval(pollingInterval);
-                    clearInterval(timerInterval);
+                    isCompleted = true;
+                    stopAllIntervals();
                     showError();
                 }
             } catch (error) {
@@ -243,20 +284,21 @@
             const statusIcon = document.getElementById('statusIcon');
             const statusTitle = document.getElementById('statusTitle');
             const statusMessage = document.getElementById('statusMessage');
-            
+
             statusIcon.className = 'fas fa-check-circle success-icon';
             statusIcon.style.animation = 'checkmark 0.5s ease-out';
             iconWrapper.style.animation = 'none';
+
             statusTitle.innerHTML = '<i class="fas fa-check-circle"></i> Payment Successful!';
             statusTitle.style.background = 'linear-gradient(135deg, #7effb0, #2eff8c)';
             statusTitle.style.backgroundClip = 'text';
             statusTitle.style.webkitBackgroundClip = 'text';
-            statusMessage.innerHTML = '<i class="fas fa-wifi"></i> Your internet has been activated! Redirecting...';
-            
-            // Redirect to success page after 3 seconds
+
+            statusMessage.innerHTML = '<i class="fas fa-wifi"></i> Payment confirmed. Connecting your device...';
+
             setTimeout(() => {
-                window.location.href = `/success/${checkoutRequestId}`;
-            }, 3000);
+                window.location.href = `/success/${checkoutRequestId}?link-orig=${encodeURIComponent(linkOrig)}`;
+            }, 2500);
         }
 
         function showError() {
@@ -264,60 +306,68 @@
             const statusIcon = document.getElementById('statusIcon');
             const statusTitle = document.getElementById('statusTitle');
             const statusMessage = document.getElementById('statusMessage');
-            const btnGroup = document.querySelector('.btn-group');
-            
+            const btnGroup = document.getElementById('btnGroup');
+
             statusIcon.className = 'fas fa-times-circle error-icon';
             statusIcon.style.animation = 'none';
             iconWrapper.style.animation = 'none';
             iconWrapper.style.borderColor = '#ff6b6b';
+
             statusTitle.innerHTML = '<i class="fas fa-times-circle"></i> Payment Failed';
             statusTitle.style.background = 'linear-gradient(135deg, #ff9e9e, #ff6b6b)';
             statusTitle.style.backgroundClip = 'text';
             statusTitle.style.webkitBackgroundClip = 'text';
+
             statusMessage.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Transaction failed. Please try again.';
-            
-            // Change buttons
+
             btnGroup.innerHTML = `
                 <button class="btn btn-primary" onclick="window.location.href='/'">
                     <i class="fas fa-arrow-left"></i> Try Again
                 </button>
-                <button class="btn btn-secondary" onclick="window.location.href='/admin'">
-                    <i class="fas fa-headset"></i> Support
-                </button>
+                <a href="/" class="btn btn-secondary">
+                    <i class="fas fa-home"></i> Home
+                </a>
             `;
         }
 
         async function checkStatusManually() {
-            document.getElementById('statusMessage').innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Checking status...';
+            if (isCompleted) return;
+
+            document.getElementById('statusMessage').innerHTML =
+                '<i class="fas fa-spinner fa-pulse"></i> Checking status...';
+
             try {
                 const response = await fetch(`/payment-status/${checkoutRequestId}`);
                 const data = await response.json();
-                
+
                 if (data.status === "paid") {
-                    clearInterval(pollingInterval);
-                    clearInterval(timerInterval);
+                    isCompleted = true;
+                    stopAllIntervals();
                     showSuccess();
                 } else if (data.status === "failed") {
-                    clearInterval(pollingInterval);
-                    clearInterval(timerInterval);
+                    isCompleted = true;
+                    stopAllIntervals();
                     showError();
                 } else {
-                    document.getElementById('statusMessage').innerHTML = '<i class="fas fa-clock"></i> Still pending. Please complete payment on your phone.';
+                    document.getElementById('statusMessage').innerHTML =
+                        '<i class="fas fa-clock"></i> Payment still pending. Please complete payment on your phone.';
                 }
             } catch (error) {
-                document.getElementById('statusMessage').innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error checking status. Please try again.';
+                document.getElementById('statusMessage').innerHTML =
+                    '<i class="fas fa-exclamation-triangle"></i> Error checking status. Please try again.';
             }
         }
 
-        // Start polling and timer
         startTimer();
-        pollingInterval = setInterval(pollPaymentStatus, 15000);
-        
-        // Stop polling after 3 minutes
-        setTimeout(() => {
-            if (pollingInterval) {
+
+        pollPaymentStatus();
+        pollingInterval = setInterval(pollPaymentStatus, 5000);
+
+        timeoutTimer = setTimeout(() => {
+            if (!isCompleted) {
                 clearInterval(pollingInterval);
-                document.getElementById('statusMessage').innerHTML = '<i class="fas fa-clock"></i> Timeout. Please check manually or contact support.';
+                document.getElementById('statusMessage').innerHTML =
+                    '<i class="fas fa-clock"></i> This is taking too long. Tap "Check Status" or contact support.';
             }
         }, 180000);
     </script>

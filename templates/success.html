@@ -84,6 +84,12 @@
             color: transparent;
         }
 
+        .subtext {
+            color: #d8e2f0;
+            font-size: 0.95rem;
+            margin-bottom: 0.4rem;
+        }
+
         .receipt-box {
             background: rgba(0, 0, 0, 0.4);
             border-radius: 1rem;
@@ -96,7 +102,8 @@
         .receipt-row {
             display: flex;
             justify-content: space-between;
-            padding: 0.5rem 0;
+            gap: 12px;
+            padding: 0.65rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -107,11 +114,15 @@
         .receipt-label {
             font-weight: 600;
             color: #7effb0;
+            min-width: 110px;
         }
 
         .receipt-value {
             font-family: monospace;
             font-size: 0.9rem;
+            text-align: right;
+            word-break: break-word;
+            flex: 1;
         }
 
         .btn-group {
@@ -122,15 +133,15 @@
 
         .btn {
             flex: 1;
-            padding: 0.8rem;
+            padding: 0.85rem 1rem;
             border-radius: 2rem;
-            font-weight: 600;
+            font-weight: 700;
             text-decoration: none;
             text-align: center;
             transition: all 0.2s;
             border: none;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.92rem;
         }
 
         .btn-primary {
@@ -158,14 +169,14 @@
             padding: 1rem;
             background: rgba(46, 255, 140, 0.1);
             border-radius: 1rem;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
 
-        /* Countdown Timer */
         .countdown {
             margin-top: 1rem;
-            padding: 0.5rem;
-            font-size: 0.8rem;
+            padding: 0.6rem 1rem;
+            font-size: 0.85rem;
             color: #7effb0;
             background: rgba(0, 0, 0, 0.3);
             border-radius: 2rem;
@@ -177,7 +188,6 @@
             margin-right: 0.5rem;
         }
 
-        /* Redirect overlay - hidden by default */
         .redirect-overlay {
             position: fixed;
             bottom: 20px;
@@ -217,6 +227,30 @@
         .fade-out {
             animation: fadeOut 0.5s ease-out forwards;
         }
+
+        @media (max-width: 560px) {
+            .success-card {
+                padding: 2rem 1.2rem;
+                border-radius: 1.5rem;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            h2 {
+                font-size: 1.55rem;
+            }
+
+            .receipt-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .receipt-value {
+                text-align: left;
+            }
+        }
     </style>
 </head>
 <body>
@@ -225,8 +259,10 @@
             <div class="check-icon">
                 <i class="fas fa-check-circle"></i>
             </div>
+
             <h2>Payment Successful!</h2>
-            <p>Your internet package has been activated</p>
+            <p class="subtext">Your payment was received successfully.</p>
+            <p class="subtext">We are now connecting your device.</p>
 
             <div class="receipt-box">
                 <div class="receipt-row">
@@ -247,22 +283,26 @@
                 </div>
                 <div class="receipt-row">
                     <span class="receipt-label">Receipt No:</span>
-                    <span class="receipt-value">{{ payment.receipt_number if payment else 'N/A' }}</span>
+                    <span class="receipt-value">{{ payment.receipt_number if payment and payment.receipt_number else 'Pending' }}</span>
                 </div>
                 <div class="receipt-row">
-                    <span class="receipt-label">Time:</span>
-                    <span class="receipt-value">{{ payment.created_at if payment else 'N/A' }}</span>
+                    <span class="receipt-label">Status:</span>
+                    <span class="receipt-value">{{ payment.status if payment else 'N/A' }}</span>
                 </div>
             </div>
 
             <div class="internet-instructions">
-                <i class="fas fa-wifi"></i> <strong>You are now connected!</strong><br>
-                Your internet access has been activated. You can now browse freely.
+                <i class="fas fa-wifi"></i>
+                <strong>Connecting your device...</strong><br>
+                Please wait while we redirect you so you can continue browsing.
             </div>
 
             <div class="btn-group">
-                <a href="/" class="btn btn-primary" id="browseNowBtn">
-                    <i class="fas fa-globe"></i> Browse Now
+                <a href="#" class="btn btn-primary" id="browseNowBtn">
+                    <i class="fas fa-globe"></i> Continue Browsing
+                </a>
+                <a href="/" class="btn btn-secondary">
+                    <i class="fas fa-home"></i> Home
                 </a>
             </div>
 
@@ -272,74 +312,72 @@
         </div>
     </div>
 
-    <!-- Redirect notification overlay -->
     <div class="redirect-overlay" id="redirectOverlay">
         <i class="fas fa-external-link-alt"></i> Redirecting you to continue browsing...
     </div>
 
     <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const linkOrig = urlParams.get("link-orig") || "https://www.google.com";
+
         let countdown = 3;
         const timerElement = document.getElementById('timer');
-        const countdownElement = document.getElementById('countdown');
         const successContainer = document.getElementById('successContainer');
         const redirectOverlay = document.getElementById('redirectOverlay');
         const browseNowBtn = document.getElementById('browseNowBtn');
 
-        // Countdown timer
+        function goToInternet() {
+            if (successContainer) {
+                successContainer.classList.add('fade-out');
+            }
+
+            if (redirectOverlay) {
+                redirectOverlay.style.opacity = '0';
+                redirectOverlay.style.transition = 'opacity 0.3s';
+            }
+
+            setTimeout(() => {
+                window.location.href = linkOrig;
+            }, 400);
+        }
+
         const interval = setInterval(() => {
             countdown--;
+
             if (timerElement) {
                 timerElement.textContent = countdown;
             }
-            
+
             if (countdown <= 0) {
                 clearInterval(interval);
-                // Fade out animation before redirect
-                if (successContainer) {
-                    successContainer.classList.add('fade-out');
-                }
-                if (redirectOverlay) {
-                    redirectOverlay.style.opacity = '0';
-                    redirectOverlay.style.transition = 'opacity 0.3s';
-                }
-                // Redirect to home page after fade
-                setTimeout(() => {
-                    window.location.href = '/';
-                }, 500);
+                goToInternet();
             }
         }, 1000);
 
-        // Manual redirect with button click
         if (browseNowBtn) {
             browseNowBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 clearInterval(interval);
-                // Fade out animation
-                if (successContainer) {
-                    successContainer.classList.add('fade-out');
-                }
-                setTimeout(() => {
-                    window.location.href = '/';
-                }, 300);
+                goToInternet();
             });
         }
 
-        // Optional: Hide overlay after 2 seconds (it's just a notification)
         setTimeout(() => {
             if (redirectOverlay) {
                 redirectOverlay.style.opacity = '0';
                 redirectOverlay.style.transition = 'opacity 0.5s';
                 setTimeout(() => {
-                    if (redirectOverlay) redirectOverlay.remove();
+                    if (redirectOverlay) {
+                        redirectOverlay.remove();
+                    }
                 }, 500);
             }
         }, 2000);
 
-        // Auto-detect if user wants to browse immediately
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 clearInterval(interval);
-                window.location.href = '/';
+                goToInternet();
             }
         });
     </script>
