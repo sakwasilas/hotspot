@@ -347,15 +347,19 @@ def home():
     try:
         mac = request.args.get("mac", "")
         ip = request.args.get("ip", "")
+
         db_packages = db.query(Package).all()
         packages = []
+
         for pkg in db_packages:
             packages.append({
                 "id": pkg.id,
                 "name": pkg.name,
                 "price": pkg.price,
-                
+                "duration_hours": pkg.duration_hours,
+                "speed": f"{pkg.duration_hours} hour access"
             })
+
         return render_template("index.html", packages=packages, mac=mac, ip=ip)
     finally:
         db.close()

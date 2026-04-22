@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>SwiftWave Hotspot | Premium WiFi Plans — Mobile Clean UI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftWave Hotspot</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
         * {
@@ -16,7 +16,7 @@
         }
 
         :root {
-            --bg: #eef2f7;
+            --bg: #f4f7fb;
             --card: #ffffff;
             --text: #0f172a;
             --muted: #64748b;
@@ -25,159 +25,121 @@
             --primary-dark: #1d4ed8;
             --success: #16a34a;
             --success-bg: #f0fdf4;
-            --blue-bg: #eff6ff;
-            --shadow: 0 10px 30px rgba(15, 23, 42, 0.07);
+            --danger: #dc2626;
+            --warning: #d97706;
+            --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
         }
 
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg);
-            min-height: 100vh;
             color: var(--text);
-            line-height: 1.45;
+            min-height: 100vh;
             padding: 14px;
         }
 
         .container {
+            width: 100%;
             max-width: 1100px;
             margin: 0 auto;
-            animation: fadeUp 0.45s ease;
         }
 
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .title-box {
-            background: linear-gradient(135deg, #0f172a, #1e40af);
-            border-radius: 18px;
-            padding: 14px 16px;
-            margin-bottom: 14px;
+        .hero {
+            background: linear-gradient(135deg, #0f172a, #1e3a8a);
+            color: white;
+            border-radius: 20px;
+            padding: 20px 16px;
             text-align: center;
-            box-shadow: 0 15px 35px rgba(15, 23, 42, 0.16);
-        }
-
-        .title-box h1 {
-            font-size: clamp(1.15rem, 4vw, 2rem);
-            font-weight: 800;
-            color: #fff;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            letter-spacing: -0.3px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .title-box h1 i {
-            color: #facc15;
-            font-size: 0.95em;
-        }
-
-        .instruction-box {
-            background: var(--card);
-            border-radius: 18px;
-            padding: 14px;
+            box-shadow: 0 15px 35px rgba(15, 23, 42, 0.18);
             margin-bottom: 16px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--line);
         }
 
-        .instruction-box h2 {
-            text-align: center;
-            font-size: 1rem;
+        .hero h1 {
+            font-size: 1.35rem;
             font-weight: 800;
-            margin-bottom: 12px;
-            color: var(--text);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            flex-wrap: wrap;
         }
 
-        .instruction-box h2 i {
-            color: var(--primary);
+        .hero p {
+            margin-top: 8px;
+            font-size: 0.92rem;
+            color: rgba(255,255,255,0.88);
         }
 
-        .instruction-steps {
+        .info-box {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 16px;
+            box-shadow: var(--shadow);
+            margin-bottom: 16px;
+        }
+
+        .info-title {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .steps {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 10px;
-            margin: 10px 0 12px;
         }
 
-        .step-item {
+        .step {
             background: #f8fafc;
             border: 1px solid var(--line);
             border-radius: 14px;
             padding: 12px 8px;
             text-align: center;
-            transition: 0.2s ease;
         }
 
-        .step-item i {
-            font-size: 1rem;
+        .step i {
             color: var(--primary);
+            font-size: 1rem;
             margin-bottom: 6px;
-            display: inline-block;
         }
 
-        .step-item p {
+        .step p {
             font-size: 0.78rem;
             font-weight: 600;
             color: #334155;
             line-height: 1.35;
         }
 
-        .contact {
-            text-align: center;
-            margin-top: 6px;
-            padding: 12px 10px;
-            font-weight: 700;
-            font-size: 0.82rem;
-            cursor: pointer;
-            transition: 0.2s ease;
-            width: 100%;
-            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+        .support {
+            margin-top: 12px;
+            background: #eff6ff;
+            color: var(--primary-dark);
             border: 1px solid #bfdbfe;
             border-radius: 14px;
-            color: var(--primary-dark);
-            line-height: 1.4;
-        }
-
-        .contact i {
-            margin-right: 6px;
-        }
-
-        .contact:hover {
-            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            padding: 12px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.84rem;
+            cursor: pointer;
         }
 
         .packages {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 12px;
-            margin-top: 2px;
         }
 
         .card {
             background: var(--card);
-            border-radius: 18px;
-            padding: 16px 14px 15px;
-            text-align: center;
             border: 1px solid var(--line);
-            transition: 0.25s ease;
-            cursor: pointer;
+            border-radius: 18px;
+            padding: 16px 14px;
             box-shadow: var(--shadow);
+            text-align: center;
             position: relative;
-            overflow: hidden;
         }
 
         .card::before {
@@ -185,194 +147,129 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
             height: 4px;
-            background: linear-gradient(90deg, var(--primary), #22c55e);
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 30px rgba(15, 23, 42, 0.10);
+            width: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--success));
+            border-radius: 18px 18px 0 0;
         }
 
         .card h3 {
-            font-size: 1.15rem;
+            font-size: 1.05rem;
             font-weight: 800;
-            color: var(--text);
             margin-bottom: 8px;
-            line-height: 1.25;
         }
 
         .price {
-            font-size: 1.35rem;
-            font-weight: 800;
-            color: var(--success);
+            display: inline-block;
             background: var(--success-bg);
-            display: inline-block;
-            padding: 7px 14px;
-            border-radius: 999px;
-            margin: 6px 0 8px;
+            color: var(--success);
             border: 1px solid #bbf7d0;
-        }
-
-        .speed {
-            font-size: 0.84rem;
-            font-weight: 600;
-            margin: 8px 0 14px;
-            background: var(--blue-bg);
-            color: var(--primary-dark);
-            display: inline-block;
-            padding: 7px 12px;
+            padding: 8px 14px;
             border-radius: 999px;
-            border: 1px solid #bfdbfe;
-            line-height: 1.3;
+            font-weight: 800;
+            font-size: 1.15rem;
+            margin-bottom: 10px;
         }
 
-        .speed i {
-            margin-right: 6px;
+        .duration {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-bottom: 14px;
+            font-weight: 600;
         }
 
-        .card button {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        .select-btn {
+            width: 100%;
             border: none;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
             font-weight: 700;
-            font-size: 0.88rem;
-            padding: 11px 16px;
             border-radius: 12px;
+            padding: 11px 14px;
             cursor: pointer;
-            transition: 0.2s ease;
-            width: 100%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 10px 18px rgba(37, 99, 235, 0.18);
+            font-size: 0.9rem;
         }
 
-        .card button i {
-            font-size: 0.85rem;
+        .select-btn:hover {
+            opacity: 0.95;
         }
 
-        .card button:hover {
-            transform: translateY(-1px);
-            background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
-        }
-
-        .modal-overlay {
+        .modal {
             position: fixed;
             inset: 0;
-            background: rgba(15, 23, 42, 0.58);
-            backdrop-filter: blur(6px);
-            display: flex;
+            background: rgba(15, 23, 42, 0.55);
+            display: none;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
-            visibility: hidden;
-            opacity: 0;
-            transition: visibility 0.2s, opacity 0.25s ease;
             padding: 14px;
+            z-index: 999;
         }
 
-        .modal-overlay.active {
-            visibility: visible;
-            opacity: 1;
+        .modal.active {
+            display: flex;
         }
 
         .modal-card {
-            background: #ffffff;
-            border-radius: 18px;
-            max-width: 390px;
+            background: white;
             width: 100%;
+            max-width: 380px;
+            border-radius: 18px;
             padding: 18px 16px;
-            border: 1px solid var(--line);
             box-shadow: 0 24px 50px rgba(15, 23, 42, 0.18);
             text-align: center;
-            transform: scale(0.96);
-            transition: transform 0.25s ease;
-        }
-
-        .active .modal-card {
-            transform: scale(1);
-        }
-
-        .modal-card i.fa-wifi {
-            font-size: 1.9rem;
-            color: var(--primary);
-            margin-bottom: 8px;
         }
 
         .modal-card h3 {
-            font-size: 1.15rem;
-            margin-bottom: 8px;
-            color: var(--text);
+            font-size: 1.08rem;
             font-weight: 800;
+            margin-bottom: 8px;
         }
 
-        .modal-card p {
-            margin: 6px 0 12px;
-            font-weight: 700;
-            font-size: 0.92rem;
-            background: var(--success-bg);
-            color: #15803d;
+        .modal-price {
             display: inline-block;
-            padding: 8px 12px;
-            border-radius: 999px;
+            background: var(--success-bg);
+            color: var(--success);
             border: 1px solid #bbf7d0;
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-weight: 800;
+            margin-bottom: 12px;
         }
 
         .modal-input {
             width: 100%;
-            padding: 12px 14px;
-            margin: 8px 0;
-            background: #f8fafc;
             border: 1px solid #cbd5e1;
+            background: #f8fafc;
             border-radius: 12px;
-            color: var(--text);
+            padding: 12px 14px;
             font-size: 0.92rem;
             outline: none;
-            font-weight: 500;
-            transition: 0.2s ease;
+            margin-bottom: 10px;
         }
 
         .modal-input:focus {
             border-color: var(--primary);
-            background: #fff;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+            background: white;
         }
 
-        .modal-buttons {
+        .modal-actions {
             display: flex;
             gap: 10px;
-            justify-content: center;
-            margin-top: 12px;
-            flex-wrap: wrap;
+            margin-top: 6px;
         }
 
-        .btn-pay, .btn-cancel {
+        .btn {
+            flex: 1;
             border: none;
-            padding: 11px 16px;
             border-radius: 12px;
+            padding: 11px 14px;
             font-weight: 700;
             cursor: pointer;
-            font-size: 0.86rem;
-            transition: 0.2s ease;
-            flex: 1;
-            min-width: 120px;
         }
 
         .btn-pay {
             background: linear-gradient(135deg, #16a34a, #15803d);
             color: white;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 10px 18px rgba(22, 163, 74, 0.18);
-        }
-
-        .btn-pay:hover {
-            transform: translateY(-1px);
         }
 
         .btn-cancel {
@@ -380,41 +277,32 @@
             color: #334155;
         }
 
-        .btn-cancel:hover {
-            background: #cbd5e1;
-        }
-
-        .status-msg {
+        .status {
             margin-top: 12px;
-            font-size: 0.82rem;
-            background: #f8fafc;
             border-radius: 12px;
             padding: 10px 12px;
-            color: var(--text);
+            font-size: 0.84rem;
             display: none;
-            border: 1px solid #e2e8f0;
             text-align: left;
             line-height: 1.45;
+            border: 1px solid var(--line);
+            background: #f8fafc;
         }
 
         footer {
+            margin: 18px auto 0;
+            max-width: 440px;
             text-align: center;
-            margin-top: 16px;
-            font-size: 0.72rem;
+            font-size: 0.74rem;
             color: var(--muted);
-            background: #ffffff;
-            width: 100%;
-            max-width: 420px;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 10px 14px;
-            border-radius: 999px;
+            background: white;
             border: 1px solid var(--line);
-            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.04);
+            border-radius: 999px;
+            padding: 10px 14px;
         }
 
-        @media (max-width: 860px) {
-            .instruction-steps {
+        @media (max-width: 768px) {
+            .steps {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
@@ -424,359 +312,255 @@
                 padding: 10px;
             }
 
-            .title-box {
-                padding: 12px 10px;
+            .hero {
+                padding: 16px 12px;
                 border-radius: 16px;
             }
 
-            .title-box h1 {
-                font-size: 1.02rem;
-                gap: 6px;
+            .hero h1 {
+                font-size: 1.1rem;
             }
 
-            .instruction-box {
-                padding: 12px;
+            .hero p {
+                font-size: 0.84rem;
+            }
+
+            .info-box,
+            .card,
+            .modal-card {
                 border-radius: 16px;
-            }
-
-            .instruction-box h2 {
-                font-size: 0.95rem;
-            }
-
-            .instruction-steps {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 8px;
-            }
-
-            .step-item {
-                padding: 10px 6px;
-                border-radius: 12px;
-            }
-
-            .step-item i {
-                font-size: 0.92rem;
-                margin-bottom: 5px;
-            }
-
-            .step-item p {
-                font-size: 0.72rem;
-            }
-
-            .contact {
-                font-size: 0.76rem;
-                padding: 10px 8px;
-                border-radius: 12px;
             }
 
             .packages {
                 grid-template-columns: 1fr;
-                gap: 10px;
-            }
-
-            .card {
-                padding: 14px 12px;
-                border-radius: 16px;
             }
 
             .card h3 {
-                font-size: 1.02rem;
-                margin-bottom: 6px;
-            }
-
-            .price {
-                font-size: 1.18rem;
-                padding: 6px 12px;
-            }
-
-            .speed {
-                font-size: 0.78rem;
-                padding: 6px 10px;
-                margin-bottom: 12px;
-            }
-
-            .card button {
-                font-size: 0.82rem;
-                padding: 10px 14px;
-                border-radius: 10px;
-            }
-
-            .modal-card {
-                border-radius: 16px;
-                padding: 16px 14px;
-            }
-
-            .modal-card h3 {
-                font-size: 1.02rem;
-            }
-
-            .modal-card p {
-                font-size: 0.84rem;
-            }
-
-            .modal-input {
-                font-size: 0.88rem;
-                padding: 11px 12px;
-            }
-
-            .btn-pay, .btn-cancel {
-                font-size: 0.82rem;
-                padding: 10px 14px;
-            }
-
-            .status-msg {
-                font-size: 0.78rem;
-            }
-
-            footer {
-                font-size: 0.68rem;
-                padding: 9px 12px;
-                border-radius: 16px;
-            }
-        }
-
-        @media (max-width: 380px) {
-            .instruction-steps {
-                grid-template-columns: 1fr;
-            }
-
-            .title-box h1 {
-                font-size: 0.96rem;
-            }
-
-            .card h3 {
-                font-size: 0.96rem;
+                font-size: 1rem;
             }
 
             .price {
                 font-size: 1.05rem;
             }
+
+            .duration {
+                font-size: 0.8rem;
+            }
+
+            .select-btn,
+            .btn {
+                font-size: 0.84rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .steps {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="container">
 
-<div class="container">
-    <div class="title-box">
-        <h1>
-            <i class="fas fa-wifi"></i>
-            SwiftWave Hotspot
-            <i class="fas fa-bolt" style="font-size: 0.9em;"></i>
-        </h1>
-    </div>
-
-    <div class="instruction-box">
-        <h2><i class="fas fa-shopping-cart"></i> How To Purchase</h2>
-        <div class="instruction-steps">
-            <div class="step-item"><i class="fas fa-hand-pointer"></i><p>1. Tap your package</p></div>
-            <div class="step-item"><i class="fas fa-mobile-alt"></i><p>2. Enter phone number</p></div>
-            <div class="step-item"><i class="fas fa-credit-card"></i><p>3. Click "PAY NOW"</p></div>
-            <div class="step-item"><i class="fas fa-key"></i><p>4. M-Pesa PIN & wait 30s</p></div>
-        </div>
-        <div class="contact" onclick="showSupport()">
-            <i class="fas fa-headset"></i> CUSTOMER CARE 24/7 : 0722 859 145
-            <i class="fas fa-comment-dots"></i>
-        </div>
-    </div>
-
-    <div class="packages">
-        {% for package in packages %}
-        <div class="card">
-            <h3>{{ package.name }}</h3>
-            <div class="price">KSH:{{ package.price }}/-</div>
-            <div class="speed"><i class="fas fa-tachometer-alt"></i> {{ package.speed }}</div>
-            <button
-                data-pkg-name="{{ package.name }}"
-                data-price="{{ package.price }}"
-                data-speed="{{ package.speed }}">
-                <i class="fas fa-arrow-right"></i> Select
-            </button>
-        </div>
-        {% endfor %}
-    </div>
-
-    <footer>
-        <i class="fas fa-shield-alt"></i> Secure payment • 24h validity • Auto-renew available
-    </footer>
-</div>
-
-<div id="paymentModal" class="modal-overlay">
-    <div class="modal-card">
-        <i class="fas fa-wifi"></i>
-        <h3 id="modalPackageName">Select Plan</h3>
-        <p id="modalPriceDisplay">KSH 0</p>
-
-        <input
-            type="tel"
-            id="phoneNumber"
-            class="modal-input"
-            placeholder="e.g., 0712345678"
-            autocomplete="off">
-
-        <div class="modal-buttons">
-            <button class="btn-pay" id="confirmPayBtn">
-                <i class="fas fa-lock"></i> PAY NOW
-            </button>
-            <button class="btn-cancel" id="cancelModalBtn">
-                Cancel
-            </button>
+        <div class="hero">
+            <h1><i class="fas fa-wifi"></i> SwiftWave Hotspot</h1>
+            <p>Choose a package, pay with M-Pesa, and start browsing instantly.</p>
         </div>
 
-        <div id="modalStatus" class="status-msg"></div>
+        <div class="info-box">
+            <div class="info-title">How To Purchase</div>
+
+            <div class="steps">
+                <div class="step">
+                    <i class="fas fa-hand-pointer"></i>
+                    <p>Select package</p>
+                </div>
+                <div class="step">
+                    <i class="fas fa-mobile-alt"></i>
+                    <p>Enter phone number</p>
+                </div>
+                <div class="step">
+                    <i class="fas fa-credit-card"></i>
+                    <p>Tap Pay Now</p>
+                </div>
+                <div class="step">
+                    <i class="fas fa-key"></i>
+                    <p>Enter M-Pesa PIN</p>
+                </div>
+            </div>
+
+            <div class="support" onclick="showSupport()">
+                <i class="fas fa-headset"></i> Customer Care: 0722 859 145
+            </div>
+        </div>
+
+        <div class="packages">
+            {% for package in packages %}
+            <div class="card">
+                <h3>{{ package.name }}</h3>
+                <div class="price">KSH {{ package.price }}</div>
+                <div class="duration">
+                    <i class="fas fa-clock"></i>
+                    {{ package.duration_hours }} hour{% if package.duration_hours > 1 %}s{% endif %} access
+                </div>
+                <button
+                    class="select-btn"
+                    data-name="{{ package.name }}"
+                    data-price="{{ package.price }}">
+                    <i class="fas fa-arrow-right"></i> Select Package
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+
+        <footer>
+            <i class="fas fa-shield-alt"></i> Secure payment • Fast activation
+        </footer>
     </div>
-</div>
 
-<script>
-    let selectedPackage = null;
+    <div class="modal" id="paymentModal">
+        <div class="modal-card">
+            <h3 id="modalPackageName">Package</h3>
+            <div class="modal-price" id="modalPriceDisplay">KSH 0</div>
 
-    function attachCardEvents() {
-        const allSelectBtns = document.querySelectorAll('.card button');
-        allSelectBtns.forEach(btn => {
-            btn.removeEventListener('click', handleSelectClick);
-            btn.addEventListener('click', handleSelectClick);
+            <input
+                type="tel"
+                id="phoneNumber"
+                class="modal-input"
+                placeholder="Enter M-Pesa number e.g. 0712345678">
+
+            <div class="modal-actions">
+                <button class="btn btn-pay" id="payBtn">
+                    <i class="fas fa-lock"></i> Pay Now
+                </button>
+                <button class="btn btn-cancel" id="cancelBtn">
+                    Cancel
+                </button>
+            </div>
+
+            <div class="status" id="statusBox"></div>
+        </div>
+    </div>
+
+    <script>
+        let selectedPackage = null;
+
+        function normalizePhone(phone) {
+            phone = phone.replace(/\s+/g, "");
+
+            if (/^07\d{8}$/.test(phone) || /^01\d{8}$/.test(phone)) {
+                return "254" + phone.substring(1);
+            }
+
+            if (/^254(7|1)\d{8}$/.test(phone)) {
+                return phone;
+            }
+
+            if (/^\+254(7|1)\d{8}$/.test(phone)) {
+                return phone.substring(1);
+            }
+
+            return null;
+        }
+
+        function showStatus(message, type = "info") {
+            const box = document.getElementById("statusBox");
+            box.style.display = "block";
+            box.innerHTML = message;
+
+            if (type === "success") {
+                box.style.color = "#15803d";
+            } else if (type === "error") {
+                box.style.color = "#dc2626";
+            } else if (type === "warning") {
+                box.style.color = "#d97706";
+            } else {
+                box.style.color = "#0f172a";
+            }
+        }
+
+        function openModal(name, price) {
+            selectedPackage = { name, price };
+            document.getElementById("modalPackageName").innerText = name;
+            document.getElementById("modalPriceDisplay").innerText = `KSH ${price}`;
+            document.getElementById("phoneNumber").value = "";
+            document.getElementById("statusBox").style.display = "none";
+            document.getElementById("statusBox").innerHTML = "";
+            document.getElementById("paymentModal").classList.add("active");
+        }
+
+        function closeModal() {
+            document.getElementById("paymentModal").classList.remove("active");
+            selectedPackage = null;
+        }
+
+        function showSupport() {
+            alert("Customer Care: 0722859145");
+        }
+
+        document.querySelectorAll(".select-btn").forEach(button => {
+            button.addEventListener("click", function () {
+                openModal(
+                    this.dataset.name,
+                    this.dataset.price
+                );
+            });
         });
-    }
 
-    function handleSelectClick(e) {
-        e.stopPropagation();
+        document.getElementById("cancelBtn").addEventListener("click", closeModal);
 
-        const button = e.currentTarget;
-        const pkgName = button.getAttribute('data-pkg-name');
-        const price = button.getAttribute('data-price');
-        const speed = button.getAttribute('data-speed');
+        document.getElementById("paymentModal").addEventListener("click", function (e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
 
-        if (!pkgName || !price) return;
-
-        selectedPackage = {
-            name: pkgName,
-            price: price,
-            speed: speed
-        };
-
-        document.getElementById('modalPackageName').innerText = selectedPackage.name;
-        document.getElementById('modalPriceDisplay').innerHTML =
-            `<i class="fas fa-coins"></i> Total: KSH ${selectedPackage.price}/-`;
-        document.getElementById('phoneNumber').value = '';
-
-        const statusDiv = document.getElementById('modalStatus');
-        statusDiv.style.display = 'none';
-        statusDiv.innerHTML = '';
-
-        document.getElementById('paymentModal').classList.add('active');
-    }
-
-    function normalizePhone(phone) {
-        phone = phone.replace(/\s+/g, '');
-
-        if (/^07\d{8}$/.test(phone) || /^01\d{8}$/.test(phone)) {
-            return '254' + phone.substring(1);
-        }
-
-        if (/^254(7|1)\d{8}$/.test(phone)) {
-            return phone;
-        }
-
-        if (/^\+254(7|1)\d{8}$/.test(phone)) {
-            return phone.substring(1);
-        }
-
-        return null;
-    }
-
-    function showStatus(message, color = '#aaffdd') {
-        const statusDiv = document.getElementById('modalStatus');
-        statusDiv.style.display = 'block';
-        statusDiv.style.color = color;
-        statusDiv.innerHTML = message;
-    }
-
-    function closeModal() {
-        document.getElementById('paymentModal').classList.remove('active');
-        document.getElementById('modalStatus').style.display = 'none';
-        selectedPackage = null;
-    }
-
-    function initModalControls() {
-        const modal = document.getElementById('paymentModal');
-        const cancelBtn = document.getElementById('cancelModalBtn');
-        const payBtn = document.getElementById('confirmPayBtn');
-        const phoneInput = document.getElementById('phoneNumber');
-
-        cancelBtn.addEventListener('click', closeModal);
-
-        payBtn.addEventListener('click', async () => {
+        document.getElementById("payBtn").addEventListener("click", async function () {
             if (!selectedPackage) {
-                showStatus('<i class="fas fa-exclamation-triangle"></i> Please select a package first.', '#ffbc6e');
+                showStatus("Please select a package first.", "warning");
                 return;
             }
 
-            const rawPhone = phoneInput.value.trim();
-            const normalizedPhone = normalizePhone(rawPhone);
+            const rawPhone = document.getElementById("phoneNumber").value.trim();
+            const phone = normalizePhone(rawPhone);
 
-            if (!normalizedPhone) {
-                showStatus('<i class="fas fa-exclamation-triangle"></i> Please enter a valid phone number e.g. 0722859145', '#ffbc6e');
+            if (!phone) {
+                showStatus("Enter a valid phone number, for example 0712345678.", "warning");
                 return;
             }
 
-            showStatus('<i class="fas fa-spinner fa-pulse"></i> Sending STK Push... Please check your phone.', '#16a34a');
+            showStatus("Sending STK Push. Check your phone and enter M-Pesa PIN.", "success");
 
             try {
-                const response = await fetch('/pay', {
-                    method: 'POST',
+                const response = await fetch("/pay", {
+                    method: "POST",
                     headers: {
-                        'Content-Type': 'application/json'
+                        "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        phone: normalizedPhone,
+                        phone: phone,
                         package_name: selectedPackage.name,
-                        amount: selectedPackage.price
+                        amount: selectedPackage.price,
+                        mac_address: "{{ mac }}",
+                        ip_address: "{{ ip }}"
                     })
                 });
 
                 const data = await response.json();
 
                 if (data.success) {
-                    showStatus('<i class="fas fa-check-circle"></i> STK Push sent. Enter your M-Pesa PIN on your phone.', '#16a34a');
-
+                    showStatus("STK Push sent successfully. Redirecting...", "success");
                     setTimeout(() => {
                         window.location.href = `/waiting/${data.checkout_request_id}`;
-                    }, 1500);
+                    }, 1200);
                 } else {
-                    showStatus(`<i class="fas fa-times-circle"></i> ${data.message}`, '#dc2626');
+                    showStatus(data.message || "Payment failed.", "error");
                 }
             } catch (error) {
-                showStatus('<i class="fas fa-times-circle"></i> Server error. Try again.', '#dc2626');
+                showStatus("Server error. Please try again.", "error");
             }
         });
-
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
-            }
-        });
-    }
-
-    function addCardAnimations() {
-        const cards = document.querySelectorAll('.card');
-        cards.forEach((card, idx) => {
-            card.style.animation = 'fadeUp 0.45s ease forwards';
-            card.style.animationDelay = `${idx * 0.08}s`;
-            card.style.opacity = '0';
-            card.addEventListener('animationend', () => {
-                card.style.opacity = '1';
-            }, { once: true });
-        });
-    }
-
-    function showSupport() {
-        alert("📞 Customer Care: 0722859145\nAvailable 8AM - 10PM. Call or WhatsApp for support!");
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        attachCardEvents();
-        initModalControls();
-        addCardAnimations();
-    });
-</script>
-
+    </script>
 </body>
 </html>
