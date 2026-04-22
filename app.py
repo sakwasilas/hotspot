@@ -21,7 +21,8 @@ CONSUMER_KEY = os.getenv("CONSUMER_KEY", "")
 CONSUMER_SECRET = os.getenv("CONSUMER_SECRET", "")
 BUSINESS_SHORTCODE = os.getenv("BUSINESS_SHORTCODE", "174379")
 PASSKEY = os.getenv("PASSKEY", "")
-CALLBACK_URL = os.getenv("CALLBACK_URL", "https://hotspot-vcja.onrender.com/mpesa/callback")
+CALLBACK_URL = os.getenv("CALLBACK_URL")
+print("🚀 USING CALLBACK URL:", CALLBACK_URL)
 
 # MikroTik config
 ROUTER_IP = os.getenv("ROUTER_IP", "192.168.88.1")
