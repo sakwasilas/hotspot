@@ -472,10 +472,13 @@ def success(checkout_request_id):
         payment = db.query(Payment).filter_by(
             checkout_request_id=checkout_request_id
         ).first()
-        return render_template("success.html", payment=payment)
+        
+        # Get the original URL the user wanted to visit
+        original_url = request.args.get('url', request.args.get('link-orig', 'https://www.google.com'))
+        
+        return render_template("success.html", payment=payment, original_url=original_url)
     finally:
         db.close()
-
 
 @app.route('/mpesa/callback', methods=['POST'])
 def mpesa_callback():
