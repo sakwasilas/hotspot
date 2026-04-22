@@ -354,7 +354,7 @@ def home():
                 "id": pkg.id,
                 "name": pkg.name,
                 "price": pkg.price,
-                "speed": "MAX 5mbps"
+                
             })
         return render_template("index.html", packages=packages, mac=mac, ip=ip)
     finally:
