@@ -1,0 +1,175 @@
+2026-04-30 14:15:13,252 - __main__ - INFO -    - Callback URL: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 14:15:13,252 - __main__ - INFO -    - Business Shortcode: 174379
+2026-04-30 14:15:13,253 - __main__ - INFO -    - Router IP: 192.168.88.1
+2026-04-30 14:15:13,253 - __main__ - INFO -    - Allowed Origins: ['http://localhost:3000', 'https://yourdomain.com']
+2026-04-30 14:15:13,262 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-04-30 14:15:13,263 - apscheduler.scheduler - INFO - Added job "expire_finished_sessions" to job store "default"
+2026-04-30 14:15:13,264 - apscheduler.scheduler - INFO - Scheduler started
+2026-04-30 14:15:13,301 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://192.168.0.57:10000
+2026-04-30 14:15:13,301 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-30 14:15:13,304 - werkzeug - INFO -  * Restarting with stat
+2026-04-30 14:15:13,956 - __main__ - INFO -    - Callback URL: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 14:15:13,956 - __main__ - INFO -    - Business Shortcode: 174379
+2026-04-30 14:15:13,956 - __main__ - INFO -    - Router IP: 192.168.88.1
+2026-04-30 14:15:13,957 - __main__ - INFO -    - Allowed Origins: ['http://localhost:3000', 'https://yourdomain.com']
+2026-04-30 14:15:13,964 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-04-30 14:15:13,965 - apscheduler.scheduler - INFO - Added job "expire_finished_sessions" to job store "default"
+2026-04-30 14:15:13,965 - apscheduler.scheduler - INFO - Scheduler started
+2026-04-30 14:15:13,977 - werkzeug - WARNING -  * Debugger is active!
+2026-04-30 14:15:13,979 - werkzeug - INFO -  * Debugger PIN: 769-746-341
+2026-04-30 14:16:13,268 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:16:13 EAT)" (scheduled at 2026-04-30 14:16:13.262335+03:00)
+2026-04-30 14:16:13,296 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:17:13 EAT)" executed successfully
+2026-04-30 14:16:13,969 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:16:13 EAT)" (scheduled at 2026-04-30 14:16:13.964322+03:00)
+2026-04-30 14:16:13,986 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:17:13 EAT)" executed successfully
+2026-04-30 14:17:13,277 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:18:13 EAT)" (scheduled at 2026-04-30 14:17:13.262335+03:00)
+2026-04-30 14:17:13,281 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:18:13 EAT)" executed successfully
+2026-04-30 14:17:13,977 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:18:13 EAT)" (scheduled at 2026-04-30 14:17:13.964322+03:00)
+2026-04-30 14:17:13,979 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:18:13 EAT)" executed successfully
+2026-04-30 14:18:13,275 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:19:13 EAT)" (scheduled at 2026-04-30 14:18:13.262335+03:00)
+2026-04-30 14:18:13,278 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:19:13 EAT)" executed successfully
+2026-04-30 14:18:13,979 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:19:13 EAT)" (scheduled at 2026-04-30 14:18:13.964322+03:00)
+2026-04-30 14:18:13,982 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:19:13 EAT)" executed successfully
+2026-04-30 14:19:13,272 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:20:13 EAT)" (scheduled at 2026-04-30 14:19:13.262335+03:00)
+2026-04-30 14:19:13,275 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:20:13 EAT)" executed successfully
+2026-04-30 14:19:13,973 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:20:13 EAT)" (scheduled at 2026-04-30 14:19:13.964322+03:00)
+2026-04-30 14:19:13,977 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:20:13 EAT)" executed successfully
+2026-04-30 14:20:13,263 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:21:13 EAT)" (scheduled at 2026-04-30 14:20:13.262335+03:00)
+2026-04-30 14:20:13,267 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:21:13 EAT)" executed successfully
+2026-04-30 14:20:13,976 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:21:13 EAT)" (scheduled at 2026-04-30 14:20:13.964322+03:00)
+2026-04-30 14:20:13,978 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:21:13 EAT)" executed successfully
+2026-04-30 14:20:16,631 - werkzeug - INFO -  * Detected change in 'C:\\Users\\SMALL LAB 3\\Desktop\\hotspot_system\\app.py', reloading
+2026-04-30 14:20:16,770 - werkzeug - INFO -  * Restarting with stat
+2026-04-30 14:20:17,453 - __main__ - INFO -  Application starting with configuration:
+2026-04-30 14:20:17,453 - __main__ - INFO -    - Callback URL: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 14:20:17,453 - __main__ - INFO -    - Business Shortcode: 174379
+2026-04-30 14:20:17,453 - __main__ - INFO -    - Router IP: 192.168.88.1
+2026-04-30 14:20:17,454 - __main__ - INFO -    - Allowed Origins: ['http://localhost:3000', 'https://yourdomain.com']
+2026-04-30 14:20:17,461 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-04-30 14:20:17,462 - apscheduler.scheduler - INFO - Added job "expire_finished_sessions" to job store "default"
+2026-04-30 14:20:17,463 - apscheduler.scheduler - INFO - Scheduler started
+2026-04-30 14:20:17,465 - __main__ - INFO -  Starting Flask application on 0.0.0.0:10000
+2026-04-30 14:20:17,473 - werkzeug - WARNING -  * Debugger is active!
+2026-04-30 14:20:17,476 - werkzeug - INFO -  * Debugger PIN: 769-746-341
+2026-04-30 14:21:13,272 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:22:13 EAT)" (scheduled at 2026-04-30 14:21:13.262335+03:00)
+2026-04-30 14:21:13,273 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:22:13 EAT)" executed successfully
+2026-04-30 14:21:17,464 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:21:17 EAT)" (scheduled at 2026-04-30 14:21:17.461620+03:00)
+2026-04-30 14:21:17,479 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:22:17 EAT)" executed successfully
+2026-04-30 14:22:13,274 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:23:13 EAT)" (scheduled at 2026-04-30 14:22:13.262335+03:00)
+2026-04-30 14:22:13,277 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:23:13 EAT)" executed successfully
+2026-04-30 14:22:17,473 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:23:17 EAT)" (scheduled at 2026-04-30 14:22:17.461620+03:00)
+2026-04-30 14:22:17,477 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:23:17 EAT)" executed successfully
+2026-04-30 14:23:13,269 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:24:13 EAT)" (scheduled at 2026-04-30 14:23:13.262335+03:00)
+2026-04-30 14:23:13,272 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:24:13 EAT)" executed successfully
+2026-04-30 14:23:17,463 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:24:17 EAT)" (scheduled at 2026-04-30 14:23:17.461620+03:00)
+2026-04-30 14:23:17,464 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:24:17 EAT)" executed successfully
+2026-04-30 14:24:13,269 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:25:13 EAT)" (scheduled at 2026-04-30 14:24:13.262335+03:00)
+2026-04-30 14:24:13,270 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:25:13 EAT)" executed successfully
+2026-04-30 14:24:17,464 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:25:17 EAT)" (scheduled at 2026-04-30 14:24:17.461620+03:00)
+2026-04-30 14:24:17,467 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:25:17 EAT)" executed successfully
+2026-04-30 14:24:36,633 - werkzeug - INFO -  * Detected change in 'C:\\Users\\SMALL LAB 3\\Desktop\\hotspot_system\\app.py', reloading
+2026-04-30 14:24:36,784 - werkzeug - INFO -  * Restarting with stat
+2026-04-30 14:24:37,499 - __main__ - INFO -  CALLBACK_URL configured: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 14:24:37,500 - __main__ - INFO -  Application starting with configuration:
+2026-04-30 14:24:37,500 - __main__ - INFO -    - Callback URL: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 14:24:37,500 - __main__ - INFO -    - Business Shortcode: 174379
+2026-04-30 14:24:37,500 - __main__ - INFO -    - Router IP: 192.168.88.1
+2026-04-30 14:24:37,500 - __main__ - INFO -    - Allowed Origins: ['http://localhost:3000', 'https://yourdomain.com']
+2026-04-30 14:24:37,508 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-04-30 14:24:37,509 - apscheduler.scheduler - INFO - Added job "expire_finished_sessions" to job store "default"
+2026-04-30 14:24:37,509 - apscheduler.scheduler - INFO - Scheduler started
+2026-04-30 14:24:37,510 - __main__ - INFO -  Session expiry scheduler started
+2026-04-30 14:24:37,510 - __main__ - INFO -  Starting Flask application on 0.0.0.0:10000
+2026-04-30 14:24:37,518 - werkzeug - WARNING -  * Debugger is active!
+2026-04-30 14:24:37,520 - werkzeug - INFO -  * Debugger PIN: 769-746-341
+2026-04-30 14:24:45,599 - __main__ - INFO -  CALLBACK_URL configured: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 14:24:45,599 - __main__ - INFO -  Application starting with configuration:
+2026-04-30 14:24:45,599 - __main__ - INFO -    - Callback URL: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 14:24:45,600 - __main__ - INFO -    - Business Shortcode: 174379
+2026-04-30 14:24:45,600 - __main__ - INFO -    - Router IP: 192.168.88.1
+2026-04-30 14:24:45,600 - __main__ - INFO -    - Allowed Origins: ['http://localhost:3000', 'https://yourdomain.com']
+2026-04-30 14:24:45,607 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-04-30 14:24:45,608 - apscheduler.scheduler - INFO - Added job "expire_finished_sessions" to job store "default"
+2026-04-30 14:24:45,608 - apscheduler.scheduler - INFO - Scheduler started
+2026-04-30 14:24:45,609 - __main__ - INFO -  Session expiry scheduler started
+2026-04-30 14:24:45,609 - __main__ - INFO -  Starting Flask application on 0.0.0.0:10000
+2026-04-30 14:24:45,625 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://192.168.0.57:10000
+2026-04-30 14:24:45,626 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-30 14:24:45,627 - werkzeug - INFO -  * Restarting with stat
+2026-04-30 14:24:46,304 - __main__ - INFO -  CALLBACK_URL configured: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 14:24:46,304 - __main__ - INFO -  Application starting with configuration:
+2026-04-30 14:24:46,304 - __main__ - INFO -    - Callback URL: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 14:24:46,304 - __main__ - INFO -    - Business Shortcode: 174379
+2026-04-30 14:24:46,304 - __main__ - INFO -    - Router IP: 192.168.88.1
+2026-04-30 14:24:46,304 - __main__ - INFO -    - Allowed Origins: ['http://localhost:3000', 'https://yourdomain.com']
+2026-04-30 14:24:46,312 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-04-30 14:24:46,313 - apscheduler.scheduler - INFO - Added job "expire_finished_sessions" to job store "default"
+2026-04-30 14:24:46,313 - apscheduler.scheduler - INFO - Scheduler started
+2026-04-30 14:24:46,314 - __main__ - INFO -  Session expiry scheduler started
+2026-04-30 14:24:46,314 - __main__ - INFO -  Starting Flask application on 0.0.0.0:10000
+2026-04-30 14:24:46,326 - werkzeug - WARNING -  * Debugger is active!
+2026-04-30 14:24:46,328 - werkzeug - INFO -  * Debugger PIN: 769-746-341
+2026-04-30 14:26:06,983 - __main__ - INFO -  CALLBACK_URL configured: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 14:26:06,983 - __main__ - INFO -  Application starting with configuration:
+2026-04-30 14:26:06,983 - __main__ - INFO -    - Callback URL: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 14:26:06,983 - __main__ - INFO -    - Business Shortcode: 174379
+2026-04-30 14:26:06,984 - __main__ - INFO -    - Router IP: 192.168.88.1
+2026-04-30 14:26:06,984 - __main__ - INFO -    - Allowed Origins: ['http://localhost:3000', 'https://yourdomain.com']
+2026-04-30 14:26:06,992 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-04-30 14:26:06,993 - apscheduler.scheduler - INFO - Added job "expire_finished_sessions" to job store "default"
+2026-04-30 14:26:06,993 - apscheduler.scheduler - INFO - Scheduler started
+2026-04-30 14:26:06,994 - __main__ - INFO -  Session expiry scheduler started
+2026-04-30 14:26:06,994 - __main__ - INFO -  Starting Flask application on 0.0.0.0:10000
+2026-04-30 14:26:07,011 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://192.168.0.57:10000
+2026-04-30 14:26:07,011 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-30 14:26:07,012 - werkzeug - INFO -  * Restarting with stat
+2026-04-30 14:26:07,706 - __main__ - INFO -  CALLBACK_URL configured: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 14:26:07,707 - __main__ - INFO -  Application starting with configuration:
+2026-04-30 14:26:07,707 - __main__ - INFO -    - Callback URL: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 14:26:07,707 - __main__ - INFO -    - Business Shortcode: 174379
+2026-04-30 14:26:07,707 - __main__ - INFO -    - Router IP: 192.168.88.1
+2026-04-30 14:26:07,707 - __main__ - INFO -    - Allowed Origins: ['http://localhost:3000', 'https://yourdomain.com']
+2026-04-30 14:26:07,714 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-04-30 14:26:07,716 - apscheduler.scheduler - INFO - Added job "expire_finished_sessions" to job store "default"
+2026-04-30 14:26:07,716 - apscheduler.scheduler - INFO - Scheduler started
+2026-04-30 14:26:07,716 - __main__ - INFO -  Session expiry scheduler started
+2026-04-30 14:26:07,716 - __main__ - INFO -  Starting Flask application on 0.0.0.0:10000
+2026-04-30 14:26:07,724 - werkzeug - WARNING -  * Debugger is active!
+2026-04-30 14:26:07,726 - werkzeug - INFO -  * Debugger PIN: 769-746-341
+2026-04-30 14:26:49,988 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 14:26:49] "GET / HTTP/1.1" 200 -
+2026-04-30 14:26:50,676 - __main__ - WARNING - 404 error: /favicon.ico
+2026-04-30 14:26:50,677 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 14:26:50] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-04-30 14:26:56,647 - __main__ - INFO - Token request status: 200
+2026-04-30 14:26:56,647 - __main__ - INFO -  Token obtained successfully
+2026-04-30 14:26:56,648 - __main__ - INFO -  Sending STK Push to 254722859145 for KES 10.00
+2026-04-30 14:26:56,649 - __main__ - INFO -  Callback URL: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 14:26:57,790 - __main__ - INFO -  STK Response: {'MerchantRequestID': '08e6-4ff8-a042-c46dbbe741bf64704', 'CheckoutRequestID': 'ws_CO_30042026142656484722859145', 'ResponseCode': '0', 'ResponseDescription': 'Success. Request accepted for processing', 'CustomerMessage': 'Success. Request accepted for processing'}
+2026-04-30 14:26:57,797 - __main__ - INFO -  Payment record created: ws_CO_30042026142656484722859145
+2026-04-30 14:26:57,803 - __main__ - INFO -  New customer created: 254722859145
+2026-04-30 14:26:57,809 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 14:26:57] "POST /pay HTTP/1.1" 200 -
+2026-04-30 14:26:59,057 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 14:26:59] "GET /waiting/ws_CO_30042026142656484722859145 HTTP/1.1" 200 -
+2026-04-30 14:26:59,280 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 14:26:59] "GET /payment-status/ws_CO_30042026142656484722859145 HTTP/1.1" 200 -
+2026-04-30 14:27:04,296 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 14:27:04] "GET /payment-status/ws_CO_30042026142656484722859145 HTTP/1.1" 200 -
+2026-04-30 14:27:06,998 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:27:06 EAT)" (scheduled at 2026-04-30 14:27:06.992059+03:00)
+2026-04-30 14:27:07,031 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:28:06 EAT)" executed successfully
+2026-04-30 14:27:07,716 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:27:07 EAT)" (scheduled at 2026-04-30 14:27:07.714845+03:00)
+2026-04-30 14:27:07,720 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:28:07 EAT)" executed successfully
+2026-04-30 14:27:09,293 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 14:27:09] "GET /payment-status/ws_CO_30042026142656484722859145 HTTP/1.1" 200 -
+2026-04-30 14:27:14,291 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 14:27:14] "GET /payment-status/ws_CO_30042026142656484722859145 HTTP/1.1" 200 -
+2026-04-30 14:27:19,287 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 14:27:19] "GET /payment-status/ws_CO_30042026142656484722859145 HTTP/1.1" 200 -
+2026-04-30 14:27:24,286 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 14:27:24] "GET /payment-status/ws_CO_30042026142656484722859145 HTTP/1.1" 200 -
+2026-04-30 14:27:29,291 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 14:27:29] "GET /payment-status/ws_CO_30042026142656484722859145 HTTP/1.1" 200 -
+2026-04-30 14:27:34,293 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 14:27:34] "GET /payment-status/ws_CO_30042026142656484722859145 HTTP/1.1" 200 -
+2026-04-30 14:27:39,285 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 14:27:39] "GET /payment-status/ws_CO_30042026142656484722859145 HTTP/1.1" 200 -
+2026-04-30 14:27:44,290 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 14:27:44] "GET /payment-status/ws_CO_30042026142656484722859145 HTTP/1.1" 200 -
+2026-04-30 14:27:49,291 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 14:27:49] "GET /payment-status/ws_CO_30042026142656484722859145 HTTP/1.1" 200 -
+2026-04-30 14:27:54,286 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 14:27:54] "GET /payment-status/ws_CO_30042026142656484722859145 HTTP/1.1" 200 -
+2026-04-30 14:27:58,709 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 14:27:58] "GET / HTTP/1.1" 200 -

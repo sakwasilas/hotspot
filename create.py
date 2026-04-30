@@ -1,12 +1,18 @@
 from connections import engine, SessionLocal
-from models import Base, Package
+from models import Base, Package, Admin
+from werkzeug.security import generate_password_hash
 
-# recreate tables
+# =========================
+# RECREATE TABLES
+# =========================
 Base.metadata.drop_all(bind=engine)
 Base.metadata.create_all(bind=engine)
 
 db = SessionLocal()
 
+# =========================
+# SEED PACKAGES
+# =========================
 packages = [
     {"name": "1 hour", "price": 10, "duration_hours": 1},
     {"name": "2 hours", "price": 20, "duration_hours": 2},
@@ -21,7 +27,22 @@ for pkg in packages:
     if not exists:
         db.add(Package(**pkg))
 
+# =========================
+# SEED ADMIN (SAFE INSIDE SAME SESSION)
+# =========================
+admin_exists = db.query(Admin).filter_by(username="Duka.2480").first()
+
+if not admin_exists:
+    admin = Admin(
+        username="Duka.2480",
+        password=generate_password_hash("silas")
+    )
+    db.add(admin)
+
+# =========================
+# COMMIT ALL CHANGES
+# =========================
 db.commit()
 db.close()
 
-print("Tables recreated with latest columns")
+print("✅ Tables recreated and seeded successfully")
