@@ -322,3 +322,36 @@
 2026-04-30 15:19:45,855 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:20:45 EAT)" executed successfully
 2026-04-30 15:19:46,585 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:20:46 EAT)" (scheduled at 2026-04-30 15:19:46.578598+03:00)
 2026-04-30 15:19:46,586 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:20:46 EAT)" executed successfully
+2026-04-30 15:51:55,847 - __main__ - INFO -  CALLBACK_URL configured: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 15:51:55,848 - __main__ - INFO -  Application starting with configuration:
+2026-04-30 15:51:55,848 - __main__ - INFO -    - Callback URL: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 15:51:55,848 - __main__ - INFO -    - Business Shortcode: 174379
+2026-04-30 15:51:55,848 - __main__ - INFO -    - Router IP: 192.168.88.1
+2026-04-30 15:51:55,849 - __main__ - INFO -    - Allowed Origins: ['http://localhost:3000', 'https://yourdomain.com']
+2026-04-30 15:51:55,856 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-04-30 15:51:55,857 - apscheduler.scheduler - INFO - Added job "expire_finished_sessions" to job store "default"
+2026-04-30 15:51:55,857 - apscheduler.scheduler - INFO - Scheduler started
+2026-04-30 15:51:55,857 - __main__ - INFO -  Session expiry scheduler started
+2026-04-30 15:51:55,858 - __main__ - INFO -  Starting Flask application on 0.0.0.0:10000
+2026-04-30 15:51:55,874 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://192.168.0.57:10000
+2026-04-30 15:51:55,875 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-30 15:51:55,876 - werkzeug - INFO -  * Restarting with stat
+2026-04-30 15:51:56,517 - __main__ - INFO -  CALLBACK_URL configured: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 15:51:56,517 - __main__ - INFO -  Application starting with configuration:
+2026-04-30 15:51:56,517 - __main__ - INFO -    - Callback URL: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 15:51:56,517 - __main__ - INFO -    - Business Shortcode: 174379
+2026-04-30 15:51:56,517 - __main__ - INFO -    - Router IP: 192.168.88.1
+2026-04-30 15:51:56,518 - __main__ - INFO -    - Allowed Origins: ['http://localhost:3000', 'https://yourdomain.com']
+2026-04-30 15:51:56,525 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-04-30 15:51:56,525 - apscheduler.scheduler - INFO - Added job "expire_finished_sessions" to job store "default"
+2026-04-30 15:51:56,526 - apscheduler.scheduler - INFO - Scheduler started
+2026-04-30 15:51:56,526 - __main__ - INFO -  Session expiry scheduler started
+2026-04-30 15:51:56,526 - __main__ - INFO -  Starting Flask application on 0.0.0.0:10000
+2026-04-30 15:51:56,535 - werkzeug - WARNING -  * Debugger is active!
+2026-04-30 15:51:56,537 - werkzeug - INFO -  * Debugger PIN: 873-590-263
+2026-04-30 15:52:27,454 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 15:52:27] "GET / HTTP/1.1" 200 -
+2026-04-30 15:52:27,551 - __main__ - WARNING - 404 error: /favicon.ico
+2026-04-30 15:52:27,552 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 15:52:27] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
