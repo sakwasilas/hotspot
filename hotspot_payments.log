@@ -173,3 +173,152 @@
 2026-04-30 14:27:49,291 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 14:27:49] "GET /payment-status/ws_CO_30042026142656484722859145 HTTP/1.1" 200 -
 2026-04-30 14:27:54,286 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 14:27:54] "GET /payment-status/ws_CO_30042026142656484722859145 HTTP/1.1" 200 -
 2026-04-30 14:27:58,709 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 14:27:58] "GET / HTTP/1.1" 200 -
+2026-04-30 14:55:45,832 - __main__ - INFO -  CALLBACK_URL configured: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 14:55:45,832 - __main__ - INFO -  Application starting with configuration:
+2026-04-30 14:55:45,832 - __main__ - INFO -    - Callback URL: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 14:55:45,832 - __main__ - INFO -    - Business Shortcode: 174379
+2026-04-30 14:55:45,833 - __main__ - INFO -    - Router IP: 192.168.88.1
+2026-04-30 14:55:45,833 - __main__ - INFO -    - Allowed Origins: ['http://localhost:3000', 'https://yourdomain.com']
+2026-04-30 14:55:45,840 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-04-30 14:55:45,841 - apscheduler.scheduler - INFO - Added job "expire_finished_sessions" to job store "default"
+2026-04-30 14:55:45,841 - apscheduler.scheduler - INFO - Scheduler started
+2026-04-30 14:55:45,842 - __main__ - INFO -  Session expiry scheduler started
+2026-04-30 14:55:45,842 - __main__ - INFO -  Starting Flask application on 0.0.0.0:10000
+2026-04-30 14:55:45,859 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://192.168.0.57:10000
+2026-04-30 14:55:45,859 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-30 14:55:45,860 - werkzeug - INFO -  * Restarting with stat
+2026-04-30 14:55:46,570 - __main__ - INFO -  CALLBACK_URL configured: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 14:55:46,571 - __main__ - INFO -  Application starting with configuration:
+2026-04-30 14:55:46,571 - __main__ - INFO -    - Callback URL: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 14:55:46,571 - __main__ - INFO -    - Business Shortcode: 174379
+2026-04-30 14:55:46,571 - __main__ - INFO -    - Router IP: 192.168.88.1
+2026-04-30 14:55:46,571 - __main__ - INFO -    - Allowed Origins: ['http://localhost:3000', 'https://yourdomain.com']
+2026-04-30 14:55:46,578 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-04-30 14:55:46,579 - apscheduler.scheduler - INFO - Added job "expire_finished_sessions" to job store "default"
+2026-04-30 14:55:46,579 - apscheduler.scheduler - INFO - Scheduler started
+2026-04-30 14:55:46,580 - __main__ - INFO -  Session expiry scheduler started
+2026-04-30 14:55:46,580 - __main__ - INFO -  Starting Flask application on 0.0.0.0:10000
+2026-04-30 14:55:46,588 - werkzeug - WARNING -  * Debugger is active!
+2026-04-30 14:55:46,591 - werkzeug - INFO -  * Debugger PIN: 532-713-623
+2026-04-30 14:55:57,178 - werkzeug - INFO - 192.168.0.57 - - [30/Apr/2026 14:55:57] "GET / HTTP/1.1" 200 -
+2026-04-30 14:55:58,434 - __main__ - WARNING - 404 error: /favicon.ico
+2026-04-30 14:55:58,435 - werkzeug - INFO - 192.168.0.57 - - [30/Apr/2026 14:55:58] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-04-30 14:56:45,841 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:56:45 EAT)" (scheduled at 2026-04-30 14:56:45.840441+03:00)
+2026-04-30 14:56:45,853 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:57:45 EAT)" executed successfully
+2026-04-30 14:56:46,555 - __main__ - INFO - Token request status: 200
+2026-04-30 14:56:46,555 - __main__ - INFO -  Token obtained successfully
+2026-04-30 14:56:46,559 - __main__ - INFO -  Sending STK Push to 254722859145 for KES 700.00
+2026-04-30 14:56:46,560 - __main__ - INFO -  Callback URL: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 14:56:46,590 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:56:46 EAT)" (scheduled at 2026-04-30 14:56:46.578598+03:00)
+2026-04-30 14:56:46,595 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:57:46 EAT)" executed successfully
+2026-04-30 14:56:47,444 - __main__ - INFO -  Sending STK Push to 254722859145 for KES 700.00
+2026-04-30 14:56:47,444 - __main__ - INFO -  Callback URL: https://hotspot-vcja.onrender.com/mpesa/callback
+2026-04-30 14:56:47,835 - __main__ - INFO -  STK Response: {'MerchantRequestID': '08e6-4ff8-a042-c46dbbe741bf66951', 'CheckoutRequestID': 'ws_CO_30042026145646524722859145', 'ResponseCode': '0', 'ResponseDescription': 'Success. Request accepted for processing', 'CustomerMessage': 'Success. Request accepted for processing'}
+2026-04-30 14:56:47,837 - __main__ - INFO -  Payment record created: ws_CO_30042026145646524722859145
+2026-04-30 14:56:47,842 - __main__ - INFO -  Customer updated: 254722859145
+2026-04-30 14:56:47,846 - werkzeug - INFO - 192.168.0.57 - - [30/Apr/2026 14:56:47] "POST /pay HTTP/1.1" 200 -
+2026-04-30 14:56:48,677 - __main__ - INFO -  STK Response: {'MerchantRequestID': '4038-4fda-9c69-9b31e58c593322809', 'CheckoutRequestID': 'ws_CO_30042026145647343722859145', 'ResponseCode': '0', 'ResponseDescription': 'Success. Request accepted for processing', 'CustomerMessage': 'Success. Request accepted for processing'}
+2026-04-30 14:56:48,681 - __main__ - INFO -  Payment record created: ws_CO_30042026145647343722859145
+2026-04-30 14:56:48,687 - __main__ - INFO -  Customer updated: 254722859145
+2026-04-30 14:56:48,692 - werkzeug - INFO - 192.168.0.57 - - [30/Apr/2026 14:56:48] "POST /pay HTTP/1.1" 200 -
+2026-04-30 14:56:49,080 - werkzeug - INFO - 192.168.0.57 - - [30/Apr/2026 14:56:49] "GET /waiting/ws_CO_30042026145646524722859145 HTTP/1.1" 200 -
+2026-04-30 14:56:49,307 - werkzeug - INFO - 192.168.0.57 - - [30/Apr/2026 14:56:49] "GET /payment-status/ws_CO_30042026145646524722859145 HTTP/1.1" 200 -
+2026-04-30 14:56:54,312 - werkzeug - INFO - 192.168.0.57 - - [30/Apr/2026 14:56:54] "GET /payment-status/ws_CO_30042026145646524722859145 HTTP/1.1" 200 -
+2026-04-30 14:56:59,310 - werkzeug - INFO - 192.168.0.57 - - [30/Apr/2026 14:56:59] "GET /payment-status/ws_CO_30042026145646524722859145 HTTP/1.1" 200 -
+2026-04-30 14:57:04,311 - werkzeug - INFO - 192.168.0.57 - - [30/Apr/2026 14:57:04] "GET /payment-status/ws_CO_30042026145646524722859145 HTTP/1.1" 200 -
+2026-04-30 14:57:08,933 - werkzeug - INFO - 192.168.0.57 - - [30/Apr/2026 14:57:08] "GET / HTTP/1.1" 200 -
+2026-04-30 14:57:45,846 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:58:45 EAT)" (scheduled at 2026-04-30 14:57:45.840441+03:00)
+2026-04-30 14:57:45,850 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:58:45 EAT)" executed successfully
+2026-04-30 14:57:46,594 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:58:46 EAT)" (scheduled at 2026-04-30 14:57:46.578598+03:00)
+2026-04-30 14:57:46,597 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:58:46 EAT)" executed successfully
+2026-04-30 14:58:45,854 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:59:45 EAT)" (scheduled at 2026-04-30 14:58:45.840441+03:00)
+2026-04-30 14:58:45,855 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:59:45 EAT)" executed successfully
+2026-04-30 14:58:46,588 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:59:46 EAT)" (scheduled at 2026-04-30 14:58:46.578598+03:00)
+2026-04-30 14:58:46,591 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 14:59:46 EAT)" executed successfully
+2026-04-30 14:59:45,843 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:00:45 EAT)" (scheduled at 2026-04-30 14:59:45.840441+03:00)
+2026-04-30 14:59:45,846 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:00:45 EAT)" executed successfully
+2026-04-30 14:59:46,591 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:00:46 EAT)" (scheduled at 2026-04-30 14:59:46.578598+03:00)
+2026-04-30 14:59:46,594 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:00:46 EAT)" executed successfully
+2026-04-30 15:00:45,847 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:01:45 EAT)" (scheduled at 2026-04-30 15:00:45.840441+03:00)
+2026-04-30 15:00:45,850 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:01:45 EAT)" executed successfully
+2026-04-30 15:00:46,592 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:01:46 EAT)" (scheduled at 2026-04-30 15:00:46.578598+03:00)
+2026-04-30 15:00:46,595 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:01:46 EAT)" executed successfully
+2026-04-30 15:01:45,842 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:02:45 EAT)" (scheduled at 2026-04-30 15:01:45.840441+03:00)
+2026-04-30 15:01:45,845 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:02:45 EAT)" executed successfully
+2026-04-30 15:01:46,587 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:02:46 EAT)" (scheduled at 2026-04-30 15:01:46.578598+03:00)
+2026-04-30 15:01:46,590 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:02:46 EAT)" executed successfully
+2026-04-30 15:02:45,846 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:03:45 EAT)" (scheduled at 2026-04-30 15:02:45.840441+03:00)
+2026-04-30 15:02:45,848 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:03:45 EAT)" executed successfully
+2026-04-30 15:02:46,592 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:03:46 EAT)" (scheduled at 2026-04-30 15:02:46.578598+03:00)
+2026-04-30 15:02:46,595 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:03:46 EAT)" executed successfully
+2026-04-30 15:03:45,854 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:04:45 EAT)" (scheduled at 2026-04-30 15:03:45.840441+03:00)
+2026-04-30 15:03:45,856 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:04:45 EAT)" executed successfully
+2026-04-30 15:03:46,586 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:04:46 EAT)" (scheduled at 2026-04-30 15:03:46.578598+03:00)
+2026-04-30 15:03:46,589 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:04:46 EAT)" executed successfully
+2026-04-30 15:04:45,848 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:05:45 EAT)" (scheduled at 2026-04-30 15:04:45.840441+03:00)
+2026-04-30 15:04:45,851 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:05:45 EAT)" executed successfully
+2026-04-30 15:04:46,593 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:05:46 EAT)" (scheduled at 2026-04-30 15:04:46.578598+03:00)
+2026-04-30 15:04:46,596 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:05:46 EAT)" executed successfully
+2026-04-30 15:05:45,841 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:06:45 EAT)" (scheduled at 2026-04-30 15:05:45.840441+03:00)
+2026-04-30 15:05:45,843 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:06:45 EAT)" executed successfully
+2026-04-30 15:05:46,587 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:06:46 EAT)" (scheduled at 2026-04-30 15:05:46.578598+03:00)
+2026-04-30 15:05:46,590 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:06:46 EAT)" executed successfully
+2026-04-30 15:06:45,856 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:07:45 EAT)" (scheduled at 2026-04-30 15:06:45.840441+03:00)
+2026-04-30 15:06:45,858 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:07:45 EAT)" executed successfully
+2026-04-30 15:06:46,584 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:07:46 EAT)" (scheduled at 2026-04-30 15:06:46.578598+03:00)
+2026-04-30 15:06:46,587 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:07:46 EAT)" executed successfully
+2026-04-30 15:07:45,854 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:08:45 EAT)" (scheduled at 2026-04-30 15:07:45.840441+03:00)
+2026-04-30 15:07:45,855 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:08:45 EAT)" executed successfully
+2026-04-30 15:07:46,584 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:08:46 EAT)" (scheduled at 2026-04-30 15:07:46.578598+03:00)
+2026-04-30 15:07:46,587 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:08:46 EAT)" executed successfully
+2026-04-30 15:08:45,846 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:09:45 EAT)" (scheduled at 2026-04-30 15:08:45.840441+03:00)
+2026-04-30 15:08:45,849 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:09:45 EAT)" executed successfully
+2026-04-30 15:08:46,592 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:09:46 EAT)" (scheduled at 2026-04-30 15:08:46.578598+03:00)
+2026-04-30 15:08:46,593 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:09:46 EAT)" executed successfully
+2026-04-30 15:09:45,846 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:10:45 EAT)" (scheduled at 2026-04-30 15:09:45.840441+03:00)
+2026-04-30 15:09:45,850 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:10:45 EAT)" executed successfully
+2026-04-30 15:09:46,586 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:10:46 EAT)" (scheduled at 2026-04-30 15:09:46.578598+03:00)
+2026-04-30 15:09:46,587 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:10:46 EAT)" executed successfully
+2026-04-30 15:10:45,856 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:11:45 EAT)" (scheduled at 2026-04-30 15:10:45.840441+03:00)
+2026-04-30 15:10:45,857 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:11:45 EAT)" executed successfully
+2026-04-30 15:10:46,589 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:11:46 EAT)" (scheduled at 2026-04-30 15:10:46.578598+03:00)
+2026-04-30 15:10:46,591 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:11:46 EAT)" executed successfully
+2026-04-30 15:11:45,847 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:12:45 EAT)" (scheduled at 2026-04-30 15:11:45.840441+03:00)
+2026-04-30 15:11:45,848 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:12:45 EAT)" executed successfully
+2026-04-30 15:11:46,579 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:12:46 EAT)" (scheduled at 2026-04-30 15:11:46.578598+03:00)
+2026-04-30 15:11:46,581 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:12:46 EAT)" executed successfully
+2026-04-30 15:12:45,850 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:13:45 EAT)" (scheduled at 2026-04-30 15:12:45.840441+03:00)
+2026-04-30 15:12:45,851 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:13:45 EAT)" executed successfully
+2026-04-30 15:12:46,584 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:13:46 EAT)" (scheduled at 2026-04-30 15:12:46.578598+03:00)
+2026-04-30 15:12:46,586 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:13:46 EAT)" executed successfully
+2026-04-30 15:13:45,848 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:14:45 EAT)" (scheduled at 2026-04-30 15:13:45.840441+03:00)
+2026-04-30 15:13:45,850 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:14:45 EAT)" executed successfully
+2026-04-30 15:13:46,584 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:14:46 EAT)" (scheduled at 2026-04-30 15:13:46.578598+03:00)
+2026-04-30 15:13:46,585 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:14:46 EAT)" executed successfully
+2026-04-30 15:14:45,846 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:15:45 EAT)" (scheduled at 2026-04-30 15:14:45.840441+03:00)
+2026-04-30 15:14:45,849 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:15:45 EAT)" executed successfully
+2026-04-30 15:14:46,593 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:15:46 EAT)" (scheduled at 2026-04-30 15:14:46.578598+03:00)
+2026-04-30 15:14:46,597 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:15:46 EAT)" executed successfully
+2026-04-30 15:15:45,846 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:16:45 EAT)" (scheduled at 2026-04-30 15:15:45.840441+03:00)
+2026-04-30 15:15:45,848 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:16:45 EAT)" executed successfully
+2026-04-30 15:15:46,583 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:16:46 EAT)" (scheduled at 2026-04-30 15:15:46.578598+03:00)
+2026-04-30 15:15:46,584 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:16:46 EAT)" executed successfully
+2026-04-30 15:16:45,852 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:17:45 EAT)" (scheduled at 2026-04-30 15:16:45.840441+03:00)
+2026-04-30 15:16:45,854 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:17:45 EAT)" executed successfully
+2026-04-30 15:16:46,589 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:17:46 EAT)" (scheduled at 2026-04-30 15:16:46.578598+03:00)
+2026-04-30 15:16:46,590 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:17:46 EAT)" executed successfully
+2026-04-30 15:17:45,845 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:18:45 EAT)" (scheduled at 2026-04-30 15:17:45.840441+03:00)
+2026-04-30 15:17:45,848 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:18:45 EAT)" executed successfully
+2026-04-30 15:17:46,593 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:18:46 EAT)" (scheduled at 2026-04-30 15:17:46.578598+03:00)
+2026-04-30 15:17:46,596 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:18:46 EAT)" executed successfully
+2026-04-30 15:18:45,847 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:19:45 EAT)" (scheduled at 2026-04-30 15:18:45.840441+03:00)
+2026-04-30 15:18:45,851 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:19:45 EAT)" executed successfully
+2026-04-30 15:18:46,579 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:19:46 EAT)" (scheduled at 2026-04-30 15:18:46.578598+03:00)
+2026-04-30 15:18:46,580 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:19:46 EAT)" executed successfully
+2026-04-30 15:19:45,852 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:20:45 EAT)" (scheduled at 2026-04-30 15:19:45.840441+03:00)
+2026-04-30 15:19:45,855 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:20:45 EAT)" executed successfully
+2026-04-30 15:19:46,585 - apscheduler.executors.default - INFO - Running job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:20:46 EAT)" (scheduled at 2026-04-30 15:19:46.578598+03:00)
+2026-04-30 15:19:46,586 - apscheduler.executors.default - INFO - Job "expire_finished_sessions (trigger: interval[0:01:00], next run at: 2026-04-30 15:20:46 EAT)" executed successfully

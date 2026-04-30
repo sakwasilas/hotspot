@@ -3,9 +3,8 @@ from models import Base, Package, Admin
 from werkzeug.security import generate_password_hash
 
 # =========================
-# RECREATE TABLES
+# CREATE TABLES (SAFE)
 # =========================
-Base.metadata.drop_all(bind=engine)
 Base.metadata.create_all(bind=engine)
 
 db = SessionLocal()
@@ -14,12 +13,15 @@ db = SessionLocal()
 # SEED PACKAGES
 # =========================
 packages = [
-    {"name": "1 hour", "price": 10, "duration_hours": 1},
-    {"name": "2 hours", "price": 20, "duration_hours": 2},
-    {"name": "3 hours", "price": 30, "duration_hours": 3},
-    {"name": "5 hours", "price": 50, "duration_hours": 5},
-    {"name": "8 hours", "price": 80, "duration_hours": 8},
-    {"name": "15 hours", "price": 150, "duration_hours": 15},
+    {"name": "2 Hours", "price": 10, "duration_hours": 2},
+    {"name": "5 Hours", "price": 20, "duration_hours": 5},
+    {"name": "12 Hours", "price": 40, "duration_hours": 12},
+    {"name": "24 Hours", "price": 50, "duration_hours": 24},
+    {"name": "3 Days", "price": 100, "duration_hours": 72},
+    {"name": "7 Days", "price": 170, "duration_hours": 168},
+    {"name": "10 Days", "price": 220, "duration_hours": 240},
+    {"name": "15 Days", "price": 350, "duration_hours": 360},
+    {"name": "31 Days", "price": 700, "duration_hours": 744},
 ]
 
 for pkg in packages:
@@ -28,7 +30,7 @@ for pkg in packages:
         db.add(Package(**pkg))
 
 # =========================
-# SEED ADMIN (SAFE INSIDE SAME SESSION)
+# SEED ADMIN
 # =========================
 admin_exists = db.query(Admin).filter_by(username="Duka.2480").first()
 
@@ -40,9 +42,9 @@ if not admin_exists:
     db.add(admin)
 
 # =========================
-# COMMIT ALL CHANGES
+# COMMIT CHANGES
 # =========================
 db.commit()
 db.close()
 
-print("✅ Tables recreated and seeded successfully")
+print("✅ Database seeded successfully (packages + admin ready)")
