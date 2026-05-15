@@ -2,7 +2,6 @@ import os
 import base64
 import time
 import logging
-import ipaddress
 from datetime import datetime, timedelta
 
 import requests
@@ -46,7 +45,7 @@ if not app.secret_key:
 ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000,https://yourdomain.com").split(",")
 CORS(app, resources={
     r"/pay": {"origins": ALLOWED_ORIGINS},
-    r"/mpesa/callback": {"origins": []},
+    r"/mpesa/callback/*": {"origins": []},
     r"/admin/*": {"origins": ALLOWED_ORIGINS}
 })
 
@@ -63,15 +62,6 @@ if not CALLBACK_URL:
     raise ValueError("CALLBACK_URL required (HTTPS for production)")
 elif not CALLBACK_URL.startswith("https://"):
     log.warning("CALLBACK_URL is not HTTPS – M-Pesa may reject")
-
-# Official Safaricom CIDR ranges (used for callback IP verification)
-SAFARICOM_CIDRS = [
-    ipaddress.ip_network("196.201.214.0/24"),
-    ipaddress.ip_network("196.201.215.0/24"),
-    ipaddress.ip_network("196.201.216.0/24"),
-    ipaddress.ip_network("197.248.96.0/24"),
-    ipaddress.ip_network("197.248.97.0/24"),
-]
 
 # MikroTik config
 ROUTER_IP = os.getenv("ROUTER_IP", "192.168.88.1")
@@ -94,35 +84,11 @@ log.info(f"  - Router IP: {ROUTER_IP}")
 log.info(f"  - Allowed Origins: {ALLOWED_ORIGINS}")
 log.info(f"  - M-Pesa Env: {'Sandbox' if 'sandbox' in OAUTH_URL else 'Production'}")
 
-# Validate M-Pesa keys (warn but don't crash if missing – you'll see on /test-mpesa)
+# Validate M-Pesa keys (warn but don't crash if missing)
 if not CONSUMER_KEY or not CONSUMER_SECRET:
     log.warning("CONSUMER_KEY or CONSUMER_SECRET not set – M-Pesa will fail")
 if not PASSKEY:
     log.warning("PASSKEY not set – M-Pesa password generation will fail")
-
-# =========================
-# SECURITY HELPERS
-# =========================
-def is_safaricom_callback():
-    """Proper CIDR‑based callback IP verification."""
-    client_ip = request.headers.get('X-Forwarded-For', request.remote_addr).split(',')[0].strip()
-    
-    # Allow development mode (set ENVIRONMENT=development in .env)
-    if os.getenv("ENVIRONMENT") == "development":
-        log.warning(f"Dev mode: allowing callback from {client_ip}")
-        return True
-    
-    try:
-        ip = ipaddress.ip_address(client_ip)
-        for cidr in SAFARICOM_CIDRS:
-            if ip in cidr:
-                log.info(f"Valid Safaricom callback IP: {client_ip}")
-                return True
-        log.error(f"Unauthorized callback IP: {client_ip}")
-        return False
-    except ValueError:
-        log.error(f"Invalid IP address: {client_ip}")
-        return False
 
 # =========================
 # MIKROTIK HELPERS (with auto-reconnect)
@@ -323,7 +289,7 @@ def stk_push(phone, amount, account_reference, transaction_desc):
         return {"ResponseCode": "1", "ResponseDescription": str(e)}
 
 # =========================
-# ROUTES (unchanged from your original – only security fixes)
+# ROUTES
 # =========================
 @app.route('/')
 def home():
@@ -452,18 +418,25 @@ def success(checkout_request_id):
     finally:
         db.close()
 
-@app.route('/mpesa/callback', methods=['POST'])
+# ======================================================
+# SECURE CALLBACK ROUTE – uses secret in URL path
+# ======================================================
+CALLBACK_SECRET = os.getenv("CALLBACK_SECRET")
+if not CALLBACK_SECRET:
+    raise ValueError("CALLBACK_SECRET required. Generate with: python -c 'import secrets; print(secrets.token_urlsafe(32))'")
+
+@app.route(f'/mpesa/callback/{CALLBACK_SECRET}', methods=['POST'])
 def mpesa_callback():
-    if not is_safaricom_callback():
-        log.error("Unauthorized callback attempt")
-        return jsonify({"error": "Forbidden"}), 403
+    # No IP verification – the secret in the URL authenticates the callback
     callback_data = request.get_json(force=True)
-    log.info(f"Callback received: {callback_data}")
+    log.info(f"Callback received (valid secret in URL)")
+    
     if not callback_data or "Body" not in callback_data:
         return jsonify({"ResultCode": 0, "ResultDesc": "Accepted"})
     stk = callback_data["Body"].get("stkCallback")
     if not stk:
         return jsonify({"ResultCode": 0, "ResultDesc": "Accepted"})
+    
     db = SessionLocal()
     try:
         checkout_id = stk.get("CheckoutRequestID")
@@ -511,25 +484,9 @@ def mpesa_callback():
     finally:
         db.close()
 
-# @app.route('/test-mpesa')
-# def test_mpesa():
-#     token = get_mpesa_access_token()
-#     if token:
-#         return jsonify({"status": "success", "message": "M-Pesa credentials work", "token_preview": token[:50] + "..."})
-#     return jsonify({"status": "error", "message": "Failed to get token"}), 500
-
-# @app.route('/test-mikrotik')
-# def test_mikrotik():
-#     reset_mikrotik_connection()
-#     api = get_mikrotik_connection()
-#     if not api:
-#         return jsonify({"status": "error", "message": "MikroTik connection failed"}), 500
-#     try:
-#         identities = list(api.path("system", "identity").select())
-#         return jsonify({"status": "success", "message": "MikroTik connected", "data": identities})
-#     except Exception as e:
-#         return jsonify({"status": "error", "message": f"Query failed: {e}"}), 500
-
+# =========================
+# ERROR HANDLERS
+# =========================
 @app.errorhandler(404)
 def not_found(e):
     return jsonify({"error": "Not found"}), 404
