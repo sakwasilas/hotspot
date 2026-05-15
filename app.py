@@ -36,7 +36,7 @@ app = Flask(__name__)
 
 # Secure cookie settings
 app.config.update(
-    SESSION_COOKIE_SECURE=True,      # only send cookies over HTTPS
+    SESSION_COOKIE_SECURE=False,      # only send cookies over HTTPS
     SESSION_COOKIE_HTTPONLY=True,    # prevent JavaScript access
     SESSION_COOKIE_SAMESITE='Lax'    # mitigate CSRF
 )
@@ -338,18 +338,25 @@ def admin_dashboard():
 @app.route('/admin/login', methods=['POST'])
 def admin_login():
     db = SessionLocal()
+
     try:
-        data = request.get_json() or {}
-        username = data.get("username")
-        password = data.get("password")
+        username = request.form.get("username")
+        password = request.form.get("password")
+
         if not username or not password:
-            return jsonify({"success": False, "message": "Missing credentials"}), 400
+            return redirect(url_for("admin_login_page"))
+
         admin = db.query(Admin).filter_by(username=username).first()
+
         if not admin or not check_password_hash(admin.password, password):
-            return jsonify({"success": False, "message": "Invalid credentials"}), 401
+            return redirect(url_for("admin_login_page"))
+
         session["admin_id"] = admin.id
+
         log.info(f"Admin login: {username}")
-        return jsonify({"success": True, "message": "Login successful"})
+
+        return redirect(url_for("admin_dashboard"))
+
     finally:
         db.close()
 
