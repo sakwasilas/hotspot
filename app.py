@@ -511,24 +511,24 @@ def mpesa_callback():
     finally:
         db.close()
 
-@app.route('/test-mpesa')
-def test_mpesa():
-    token = get_mpesa_access_token()
-    if token:
-        return jsonify({"status": "success", "message": "M-Pesa credentials work", "token_preview": token[:50] + "..."})
-    return jsonify({"status": "error", "message": "Failed to get token"}), 500
+# @app.route('/test-mpesa')
+# def test_mpesa():
+#     token = get_mpesa_access_token()
+#     if token:
+#         return jsonify({"status": "success", "message": "M-Pesa credentials work", "token_preview": token[:50] + "..."})
+#     return jsonify({"status": "error", "message": "Failed to get token"}), 500
 
-@app.route('/test-mikrotik')
-def test_mikrotik():
-    reset_mikrotik_connection()
-    api = get_mikrotik_connection()
-    if not api:
-        return jsonify({"status": "error", "message": "MikroTik connection failed"}), 500
-    try:
-        identities = list(api.path("system", "identity").select())
-        return jsonify({"status": "success", "message": "MikroTik connected", "data": identities})
-    except Exception as e:
-        return jsonify({"status": "error", "message": f"Query failed: {e}"}), 500
+# @app.route('/test-mikrotik')
+# def test_mikrotik():
+#     reset_mikrotik_connection()
+#     api = get_mikrotik_connection()
+#     if not api:
+#         return jsonify({"status": "error", "message": "MikroTik connection failed"}), 500
+#     try:
+#         identities = list(api.path("system", "identity").select())
+#         return jsonify({"status": "success", "message": "MikroTik connected", "data": identities})
+#     except Exception as e:
+#         return jsonify({"status": "error", "message": f"Query failed: {e}"}), 500
 
 @app.errorhandler(404)
 def not_found(e):
