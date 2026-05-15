@@ -10,6 +10,8 @@ from flask import Flask, render_template, request, jsonify, session, redirect, u
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from apscheduler.schedulers.background import BackgroundScheduler
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 from connections import SessionLocal
 from models import Payment, Package, Customer, Session as DBSession, Admin
@@ -18,15 +20,12 @@ from models import Payment, Package, Customer, Session as DBSession, Admin
 load_dotenv()
 
 # =========================
-# LOGGING CONFIGURATION
+# LOGGING CONFIGURATION (Render‑compatible)
 # =========================
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('hotspot_payments.log'),
-        logging.StreamHandler()
-    ]
+    handlers=[logging.StreamHandler()]
 )
 log = logging.getLogger(__name__)
 
@@ -35,13 +34,29 @@ log = logging.getLogger(__name__)
 # =========================
 app = Flask(__name__)
 
+# Secure cookie settings
+app.config.update(
+    SESSION_COOKIE_SECURE=True,      # only send cookies over HTTPS
+    SESSION_COOKIE_HTTPONLY=True,    # prevent JavaScript access
+    SESSION_COOKIE_SAMESITE='Lax'    # mitigate CSRF
+)
+
 # Secret key (required)
 app.secret_key = os.getenv("SECRET_KEY")
 if not app.secret_key:
     log.error("SECRET_KEY not set!")
     raise ValueError("SECRET_KEY required. Generate with: python -c 'import secrets; print(secrets.token_hex(32))'")
 
-# CORS – keep as is
+# Rate limiting (in‑memory, fine for single worker)
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["200 per day", "50 per hour"],
+    storage_uri="memory://",
+    strategy="fixed-window"
+)
+
+# CORS
 ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000,https://yourdomain.com").split(",")
 CORS(app, resources={
     r"/pay": {"origins": ALLOWED_ORIGINS},
@@ -84,7 +99,7 @@ log.info(f"  - Router IP: {ROUTER_IP}")
 log.info(f"  - Allowed Origins: {ALLOWED_ORIGINS}")
 log.info(f"  - M-Pesa Env: {'Sandbox' if 'sandbox' in OAUTH_URL else 'Production'}")
 
-# Validate M-Pesa keys (warn but don't crash if missing)
+# Validate M-Pesa keys
 if not CONSUMER_KEY or not CONSUMER_SECRET:
     log.warning("CONSUMER_KEY or CONSUMER_SECRET not set – M-Pesa will fail")
 if not PASSKEY:
@@ -95,10 +110,8 @@ if not PASSKEY:
 # =========================
 def get_mikrotik_connection():
     global MIKROTIK_API
-    # Test cached connection
     if MIKROTIK_API:
         try:
-            # Quick test – try to list something simple
             MIKROTIK_API.path("system", "identity").select()
             return MIKROTIK_API
         except Exception:
@@ -196,13 +209,12 @@ def expire_finished_sessions():
         db.close()
 
 # =========================
-# SCHEDULER – runs only once (no duplicates)
+# SCHEDULER – runs only once
 # =========================
 scheduler = None
 
 def start_scheduler():
     global scheduler
-    # Avoid starting in Flask reloader child process
     if os.environ.get('WERKZEUG_RUN_MAIN') == 'true' or os.environ.get('RUN_MAIN') == 'true':
         log.debug("Skipping scheduler start in reloader process")
         return
@@ -219,7 +231,6 @@ def shutdown_scheduler():
         scheduler = None
         log.info("Scheduler shut down")
 
-# Start scheduler when app loads (works with Gunicorn --preload too)
 start_scheduler()
 
 # =========================
@@ -293,7 +304,7 @@ def stk_push(phone, amount, account_reference, transaction_desc):
 # =========================
 @app.route('/')
 def home():
-    expire_finished_sessions()  # immediate check on homepage
+    expire_finished_sessions()
     db = SessionLocal()
     try:
         mac = request.args.get("mac", "")
@@ -352,6 +363,7 @@ def admin_logout():
     return jsonify({"success": True, "message": "Logged out"})
 
 @app.route('/pay', methods=['POST'])
+@limiter.limit("5 per minute", key_func=lambda: request.get_json().get('phone', request.remote_addr))
 def pay():
     db = SessionLocal()
     try:
@@ -427,7 +439,6 @@ if not CALLBACK_SECRET:
 
 @app.route(f'/mpesa/callback/{CALLBACK_SECRET}', methods=['POST'])
 def mpesa_callback():
-    # No IP verification – the secret in the URL authenticates the callback
     callback_data = request.get_json(force=True)
     log.info(f"Callback received (valid secret in URL)")
     
@@ -496,12 +507,15 @@ def internal_error(e):
     log.error(f"500 error: {e}", exc_info=True)
     return jsonify({"error": "Internal server error"}), 500
 
+@app.errorhandler(429)
+def ratelimit_handler(e):
+    return jsonify({"success": False, "message": "Too many requests. Please wait a moment before trying again."}), 429
+
 # =========================
 # MAIN – for local dev only
 # =========================
 if __name__ == "__main__":
     debug_mode = os.getenv("FLASK_DEBUG", "False").lower() == "true"
-    # For production, use Gunicorn with --preload instead.
     app.run(host="0.0.0.0", port=10000, debug=debug_mode)
 
 # Ensure scheduler shuts down on exit (for Gunicorn)
