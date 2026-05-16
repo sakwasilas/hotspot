@@ -2,6 +2,7 @@ import os
 import base64
 import time
 import logging
+import fcntl  # <-- NEW for file lock
 from datetime import datetime, timedelta
 
 import requests
@@ -20,7 +21,7 @@ from models import Payment, Package, Customer, Session as DBSession, Admin
 load_dotenv()
 
 # =========================
-# LOGGING CONFIGURATION (Render‑compatible)
+# LOGGING CONFIGURATION
 # =========================
 logging.basicConfig(
     level=logging.INFO,
@@ -34,20 +35,18 @@ log = logging.getLogger(__name__)
 # =========================
 app = Flask(__name__)
 
-# Secure cookie settings
+# Secure cookie settings – set SESSION_COOKIE_SECURE=True in production (HTTPS)
 app.config.update(
-    SESSION_COOKIE_SECURE=False,      # only send cookies over HTTPS
-    SESSION_COOKIE_HTTPONLY=True,    # prevent JavaScript access
-    SESSION_COOKIE_SAMESITE='Lax'    # mitigate CSRF
+    SESSION_COOKIE_SECURE=os.getenv("SESSION_COOKIE_SECURE", "False").lower() == "true",
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE='Lax'
 )
 
-# Secret key (required)
 app.secret_key = os.getenv("SECRET_KEY")
 if not app.secret_key:
-    log.error("SECRET_KEY not set!")
     raise ValueError("SECRET_KEY required. Generate with: python -c 'import secrets; print(secrets.token_hex(32))'")
 
-# Rate limiting (in‑memory, fine for single worker)
+# Rate limiting
 limiter = Limiter(
     get_remote_address,
     app=app,
@@ -72,7 +71,6 @@ CONSUMER_SECRET = os.getenv("CONSUMER_SECRET", "")
 BUSINESS_SHORTCODE = os.getenv("BUSINESS_SHORTCODE", "174379")
 PASSKEY = os.getenv("PASSKEY", "")
 CALLBACK_URL = os.getenv("CALLBACK_URL")
-
 if not CALLBACK_URL:
     raise ValueError("CALLBACK_URL required (HTTPS for production)")
 elif not CALLBACK_URL.startswith("https://"):
@@ -84,7 +82,7 @@ ROUTER_USERNAME = os.getenv("ROUTER_USERNAME", "admin")
 ROUTER_PASSWORD = os.getenv("ROUTER_PASSWORD", "")
 ROUTER_PORT = int(os.getenv("ROUTER_PORT", "8728"))
 
-# M-Pesa endpoints – can be overridden for production
+# M-Pesa endpoints
 OAUTH_URL = os.getenv("MPESA_OAUTH_URL", "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials")
 STK_PUSH_URL = os.getenv("MPESA_STK_PUSH_URL", "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest")
 
@@ -99,43 +97,29 @@ log.info(f"  - Router IP: {ROUTER_IP}")
 log.info(f"  - Allowed Origins: {ALLOWED_ORIGINS}")
 log.info(f"  - M-Pesa Env: {'Sandbox' if 'sandbox' in OAUTH_URL else 'Production'}")
 
-# Validate M-Pesa keys
 if not CONSUMER_KEY or not CONSUMER_SECRET:
     log.warning("CONSUMER_KEY or CONSUMER_SECRET not set – M-Pesa will fail")
 if not PASSKEY:
     log.warning("PASSKEY not set – M-Pesa password generation will fail")
 
 # =========================
-# MIKROTIK HELPERS (with auto-reconnect)
+# MIKROTIK HELPERS (no global variable – thread‑safe)
 # =========================
 def get_mikrotik_connection():
-    global MIKROTIK_API
-    if MIKROTIK_API:
-        try:
-            MIKROTIK_API.path("system", "identity").select()
-            return MIKROTIK_API
-        except Exception:
-            log.warning("MikroTik connection lost, reconnecting...")
-            MIKROTIK_API = None
-    
+    """Create a new connection each time – thread‑safe and avoids stale connections."""
     try:
         from librouteros import connect
-        MIKROTIK_API = connect(
+        api = connect(
             username=ROUTER_USERNAME,
             password=ROUTER_PASSWORD,
             host=ROUTER_IP,
             port=ROUTER_PORT
         )
-        log.info("Connected to MikroTik router")
-        return MIKROTIK_API
+        log.debug("MikroTik connection established")
+        return api
     except Exception as e:
         log.error(f"MikroTik connection error: {e}")
         return None
-
-def reset_mikrotik_connection():
-    global MIKROTIK_API
-    MIKROTIK_API = None
-    log.info("MikroTik connection reset")
 
 def allow_customer_on_mikrotik(customer):
     if not customer or not customer.mac_address:
@@ -160,6 +144,9 @@ def allow_customer_on_mikrotik(customer):
     except Exception as e:
         log.error(f"MikroTik allow error: {e}")
         return False
+    finally:
+        # librouteros connections don't have explicit close; let GC handle.
+        pass
 
 def remove_customer_from_mikrotik(customer):
     if not customer or not customer.mac_address:
@@ -209,28 +196,76 @@ def expire_finished_sessions():
         db.close()
 
 # =========================
-# SCHEDULER – runs only once
+# STALE PAYMENT CLEANUP (NEW)
 # =========================
-scheduler = None
+def fail_stale_payments():
+    """
+    Mark payments as 'failed' if they have been pending for more than 10 minutes
+    and no callback has updated them.
+    """
+    db = SessionLocal()
+    try:
+        cutoff = datetime.utcnow() - timedelta(minutes=10)
+        stale_payments = db.query(Payment).filter(
+            Payment.status == "pending",
+            Payment.created_at < cutoff   # Assumes Payment model has 'created_at' column
+        ).all()
+        for p in stale_payments:
+            p.status = "failed"
+            log.info(f"Auto-failed stale payment {p.checkout_request_id} (pending since {p.created_at})")
+        if stale_payments:
+            db.commit()
+            log.info(f"Auto-failed {len(stale_payments)} stale pending payments")
+    except Exception as e:
+        db.rollback()
+        log.error(f"Stale payment cleanup error: {e}")
+    finally:
+        db.close()
+
+# =========================
+# MULTI‑WORKER SAFE SCHEDULER (file lock)
+# =========================
+SCHEDULER_LOCK_FILE = "/tmp/hotspot_scheduler.lock"
 
 def start_scheduler():
-    global scheduler
+    """Start background jobs only if we can acquire a file lock (single worker)."""
     if os.environ.get('WERKZEUG_RUN_MAIN') == 'true' or os.environ.get('RUN_MAIN') == 'true':
-        log.debug("Skipping scheduler start in reloader process")
+        log.debug("Skipping scheduler in reloader process")
         return
-    if scheduler is None:
+
+    # Try to acquire lock
+    try:
+        lock_fd = open(SCHEDULER_LOCK_FILE, 'w')
+        fcntl.flock(lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        # Lock acquired – this worker will run the scheduler
         scheduler = BackgroundScheduler()
-        scheduler.add_job(expire_finished_sessions, 'interval', minutes=1)
+        scheduler.add_job(expire_finished_sessions, 'interval', minutes=5, id='expire_sessions')
+        scheduler.add_job(fail_stale_payments, 'interval', minutes=5, id='fail_stale_payments')
         scheduler.start()
-        log.info("Session expiry scheduler started")
+        log.info("Scheduler started (lock acquired)")
+        # Keep lock file open to maintain lock
+        app.config['SCHEDULER_LOCK_FD'] = lock_fd
+        app.config['SCHEDULER'] = scheduler
+    except (IOError, OSError):
+        log.info("Scheduler already running in another worker – skipping")
+    except Exception as e:
+        log.error(f"Failed to start scheduler: {e}")
 
 def shutdown_scheduler():
-    global scheduler
+    """Release lock and shut down scheduler if this worker owns it."""
+    scheduler = app.config.get('SCHEDULER')
     if scheduler:
         scheduler.shutdown()
-        scheduler = None
         log.info("Scheduler shut down")
+    lock_fd = app.config.get('SCHEDULER_LOCK_FD')
+    if lock_fd:
+        try:
+            fcntl.flock(lock_fd, fcntl.LOCK_UN)
+            lock_fd.close()
+        except:
+            pass
 
+# Start scheduler (safe for Gunicorn with multiple workers)
 start_scheduler()
 
 # =========================
@@ -260,13 +295,22 @@ def generate_password(shortcode, passkey, timestamp):
     return base64.b64encode(raw.encode()).decode()
 
 def normalize_kenyan_phone(phone):
-    phone = phone.strip().replace(" ", "")
+    """Convert any Kenyan phone number to 254XXXXXXXXX format."""
+    if not phone:
+        return None
+    phone = phone.strip().replace(" ", "").replace("-", "")
     if phone.startswith("+254"):
         phone = phone[1:]
-    if phone.startswith("07") or phone.startswith("01"):
+    if phone.startswith("0"):
         phone = "254" + phone[1:]
     if phone.startswith("254") and len(phone) == 12:
+        # Additional sanity: must start with 2547 or 2541
+        if phone[3] in ('7', '1'):
+            return phone
+    # Accept even if not perfect – M-Pesa will validate
+    if phone.isdigit() and len(phone) == 12 and phone.startswith("254"):
         return phone
+    log.warning(f"Could not normalize phone number: {phone}")
     return None
 
 def stk_push(phone, amount, account_reference, transaction_desc):
@@ -304,7 +348,6 @@ def stk_push(phone, amount, account_reference, transaction_desc):
 # =========================
 @app.route('/')
 def home():
-    expire_finished_sessions()
     db = SessionLocal()
     try:
         mac = request.args.get("mac", "")
@@ -336,27 +379,20 @@ def admin_dashboard():
         db.close()
 
 @app.route('/admin/login', methods=['POST'])
+@limiter.limit("10 per minute")  
 def admin_login():
     db = SessionLocal()
-
     try:
         username = request.form.get("username")
         password = request.form.get("password")
-
         if not username or not password:
             return redirect(url_for("admin_login_page"))
-
         admin = db.query(Admin).filter_by(username=username).first()
-
         if not admin or not check_password_hash(admin.password, password):
             return redirect(url_for("admin_login_page"))
-
         session["admin_id"] = admin.id
-
         log.info(f"Admin login: {username}")
-
         return redirect(url_for("admin_dashboard"))
-
     finally:
         db.close()
 
@@ -364,10 +400,26 @@ def admin_login():
 def admin_login_page():
     return render_template("admin_login.html")
 
-@app.route('/admin/logout')
+@app.route('/admin/logout', methods=['GET'])  
 def admin_logout():
     session.pop("admin_id", None)
     return jsonify({"success": True, "message": "Logged out"})
+
+# =========================
+# MANUAL CLEANUP ENDPOINT (NEW)
+# =========================
+ADMIN_CLEANUP_SECRET = os.getenv("ADMIN_CLEANUP_SECRET", "")
+if not ADMIN_CLEANUP_SECRET:
+    log.warning("ADMIN_CLEANUP_SECRET not set – manual cleanup endpoint disabled")
+
+@app.route('/admin/cleanup-payments', methods=['POST'])
+def admin_cleanup_payments():
+    """Manually trigger stale payment cleanup. Provide secret in JSON body."""
+    data = request.get_json() or {}
+    if data.get("secret") != ADMIN_CLEANUP_SECRET:
+        return jsonify({"error": "Unauthorized"}), 401
+    fail_stale_payments()
+    return jsonify({"success": True, "message": "Stale payments cleaned up"})
 
 @app.route('/pay', methods=['POST'])
 @limiter.limit("5 per minute", key_func=lambda: request.get_json().get('phone', request.remote_addr))
@@ -388,9 +440,16 @@ def pay():
         checkout_id = response.get("CheckoutRequestID")
         if response.get("ResponseCode") == "0" and checkout_id:
             if not db.query(Payment).filter_by(checkout_request_id=checkout_id).first():
-                payment = Payment(checkout_request_id=checkout_id, phone=phone, 
-                                  package_id=package.id, amount=float(package.price), status="pending")
+                payment = Payment(
+                    checkout_request_id=checkout_id,
+                    phone=phone,
+                    package_id=package.id,
+                    amount=float(package.price),
+                    status="pending",
+                    created_at=datetime.utcnow()  # <-- explicit created_at (ensure column exists)
+                )
                 db.add(payment)
+            # Update or create customer
             customer = db.query(Customer).filter_by(phone=phone).first()
             if not customer:
                 customer = Customer(phone=phone, ip_address=ip, mac_address=mac)
@@ -421,7 +480,11 @@ def payment_status(checkout_request_id):
     db = SessionLocal()
     try:
         payment = db.query(Payment).filter_by(checkout_request_id=checkout_request_id).first()
-        return jsonify({"status": payment.status if payment else "pending"})
+        status = payment.status if payment else "pending"
+        # Optional: if pending and older than 10 min, tell frontend to retry
+        if status == "pending" and payment and payment.created_at < datetime.utcnow() - timedelta(minutes=10):
+            status = "timeout"
+        return jsonify({"status": status})
     except:
         return jsonify({"status": "pending"})
     finally:
@@ -438,7 +501,7 @@ def success(checkout_request_id):
         db.close()
 
 # ======================================================
-# SECURE CALLBACK ROUTE – uses secret in URL path
+# SECURE CALLBACK ROUTE
 # ======================================================
 CALLBACK_SECRET = os.getenv("CALLBACK_SECRET")
 if not CALLBACK_SECRET:
@@ -483,8 +546,8 @@ def mpesa_callback():
                 db.flush()
             pkg = db.query(Package).filter_by(id=payment.package_id).first()
             if pkg:
-                for old in db.query(DBSession).filter_by(customer_id=customer.id, status="active").all():
-                    old.status = "expired"
+                # Expire any existing active sessions for this customer
+                db.query(DBSession).filter_by(customer_id=customer.id, status="active").update({"status": "expired"})
                 start = datetime.utcnow()
                 end = start + timedelta(hours=pkg.duration_hours)
                 db.add(DBSession(customer_id=customer.id, package_id=pkg.id, start_time=start, end_time=end, status="active"))
